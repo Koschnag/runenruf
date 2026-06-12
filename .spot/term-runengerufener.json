@@ -1,0 +1,30 @@
+{
+  "Id": "term-runengerufener",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Runengerufener",
+        "Definition": "Der Avatar des Spielers — eine an eine Rune gebundene Seele, an Monumenten rufbar; levelt, trägt Ausrüstung, lernt Fertigkeiten",
+        "Synonyms": [
+          "Avatar"
+        ],
+        "Relations": [
+          {
+            "Case": "RelatesTo",
+            "Fields": {
+              "Item": "term-rune"
+            }
+          },
+          {
+            "Case": "RelatesTo",
+            "Fields": {
+              "Item": "term-monument"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

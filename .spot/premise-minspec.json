@@ -1,0 +1,13 @@
+{
+  "Id": "premise-minspec",
+  "Payload": {
+    "Case": "PremiseNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Min-Spec: Raspberry Pi 5 (8 GB) — 1080p, niedrigste Settings, 30 FPS; Primärgerät: M1 Mac",
+        "Rationale": "Harte Budgets erzwingen Disziplin; was auf dem Pi läuft, läuft überall"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

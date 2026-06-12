@@ -1,0 +1,25 @@
+{
+  "Id": "spec-terrain",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Prozedurales Terrain",
+        "Intent": "Ein Weltsplitter aus einem Rezept: Heightmap → Mesh → gerendert mit warmem Licht",
+        "Criteria": [
+          {
+            "Given": "ein Terrain-Rezept mit Seed",
+            "When": "das Mesh generiert wird",
+            "Then": "ist es deterministisch und hält das Tri-Budget der niedrigsten Stufe ein"
+          },
+          {
+            "Given": "dasselbe Rezept zweimal",
+            "When": "beide Meshes verglichen werden",
+            "Then": "sind sie bitgleich"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

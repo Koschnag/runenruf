@@ -1,0 +1,14 @@
+{
+  "Id": "spec-minspec-budgets-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-minspec-budgets",
+        "Name": "Min-Spec-Budgets als Tests \u2014 when ein Frame-Budget gepr\u00FCft wird then liegen Terrain\u002BEinheiten unter 100k Dreiecken und 150 Drawcalls",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

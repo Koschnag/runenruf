@@ -1,0 +1,15 @@
+{
+  "Id": "term-ressource",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Ressource",
+        "Definition": "Sammelbares Wirtschaftsgut: Holz, Stein, Eisen, Nahrung, Äther",
+        "Synonyms": [],
+        "Relations": []
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

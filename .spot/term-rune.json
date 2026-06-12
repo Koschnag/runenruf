@@ -1,0 +1,15 @@
+{
+  "Id": "term-rune",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Rune",
+        "Definition": "Gebundene Seele als beschworene Einheit oder Avatar — das zentrale Beschwörungs- und Schmuckmotiv der Welt",
+        "Synonyms": [],
+        "Relations": []
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

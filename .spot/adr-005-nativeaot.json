@@ -1,0 +1,16 @@
+{
+  "Id": "adr-005-nativeaot",
+  "Payload": {
+    "Case": "DecisionNode",
+    "Fields": {
+      "Item": {
+        "Title": "NativeAOT für Game-Host und AssetForge-CLI",
+        "Context": "Schneller Start, kleiner Speicher — wichtig auf Pi 5; F#-Domäne ist AOT-tauglich (keine Reflection)",
+        "Choice": "PublishAot für Runenruf.Game und AssetForge; Reflection-freie Serialisierung (Source-Generator)",
+        "Consequences": "Trim-Warnungen werden Fehler; ein paar Bibliotheks-Einschränkungen",
+        "Supersedes": null
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

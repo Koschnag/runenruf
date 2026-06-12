@@ -1,0 +1,13 @@
+{
+  "Id": "comp-domain",
+  "Payload": {
+    "Case": "ComponentNode",
+    "Fields": {
+      "Item": {
+        "Name": "Runenruf.Domain",
+        "DependsOn": []
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

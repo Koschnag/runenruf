@@ -1,0 +1,15 @@
+{
+  "Id": "risk-stilbruch",
+  "Payload": {
+    "Case": "RiskNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Generierte Assets wirken beliebig statt nach SpellForce-Stimmung",
+        "Likelihood": "Medium",
+        "Impact": "High",
+        "Mitigation": "Stil-Bibel als zentrale Rezept-Defaults (Palette, Ornament-Grammatik, Instrumentierung); jedes Asset-Rezept erbt davon"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

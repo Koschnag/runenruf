@@ -1,0 +1,14 @@
+{
+  "Id": "spec-assetforge-textur-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-assetforge-textur",
+        "Name": "AssetForge: Beschreibung \u2192 Textur \u2014 when AssetForge l\u00E4uft then entsteht ein Rezept und daraus ein g\u00FCltiges PNG in der Stil-Palette",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

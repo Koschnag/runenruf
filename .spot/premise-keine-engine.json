@@ -1,0 +1,13 @@
+{
+  "Id": "premise-keine-engine",
+  "Payload": {
+    "Case": "PremiseNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Keine fertige Engine — Eigenbau auf FOSS-Bindings (Silk.NET)",
+        "Rationale": "Volle Kontrolle über Stil, Performance und Min-Spec; Bindings sind keine Engine"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -1,0 +1,25 @@
+{
+  "Id": "spec-wirtschaft",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Ressourcen-Wirtschaft",
+        "Intent": "Arbeiter sammeln, Lager füllen sich, Produktion verbraucht — der RTS-Kreislauf",
+        "Criteria": [
+          {
+            "Given": "ein Arbeiter neben einer Holzquelle und ein Lager",
+            "When": "100 Ticks simuliert werden",
+            "Then": "steigt der Holzvorrat messbar"
+          },
+          {
+            "Given": "ein Beschwörungs-Befehl ohne genug Äther",
+            "When": "der Tick verarbeitet wird",
+            "Then": "wird er abgelehnt und nichts abgezogen"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

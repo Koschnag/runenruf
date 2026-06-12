@@ -1,0 +1,24 @@
+{
+  "Id": "term-aether",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Äther",
+        "Definition": "Magie-Ressource, die aus Ätherquellen gewonnen wird — treibt Zauber und Beschwörungen",
+        "Synonyms": [
+          "Mana"
+        ],
+        "Relations": [
+          {
+            "Case": "IsA",
+            "Fields": {
+              "Item": "term-ressource"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

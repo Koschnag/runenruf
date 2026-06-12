@@ -1,0 +1,14 @@
+{
+  "Id": "spec-fenster-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-fenster",
+        "Name": "Cross-Platform-Fenster mit GL-Kontext \u2014 when mit --headless gestartet wird then initialisiert die Technik ohne Fenster und beendet sich sauber",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

@@ -1,0 +1,14 @@
+{
+  "Id": "spec-runenruf-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-runenruf",
+        "Name": "Runen rufen \u2014 when die Wiederbelebungszeit abl\u00E4uft then ersteht er am letzten aktivierten Monument wieder auf",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

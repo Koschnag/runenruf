@@ -1,0 +1,13 @@
+{
+  "Id": "premise-sprachen",
+  "Payload": {
+    "Case": "PremiseNode",
+    "Fields": {
+      "Item": {
+        "Statement": "F# für Modelle und Simulation, C# für Technik (Rendering, IO, Audio, Tools)",
+        "Rationale": "Typsichere, pure Domäne; imperative Technik dort, wo Interop und Performance zählen"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

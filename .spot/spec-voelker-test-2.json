@@ -1,0 +1,14 @@
+{
+  "Id": "spec-voelker-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-voelker",
+        "Name": "Sechs V\u00F6lker mit Einheiten \u2014 when seine Einheitstypen abgefragt werden then hat es mindestens Arbeiter, Nahk\u00E4mpfer, Fernk\u00E4mpfer und ein Alleinstellungsmerkmal",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

@@ -1,0 +1,13 @@
+{
+  "Id": "comp-assetforge",
+  "Payload": {
+    "Case": "ComponentNode",
+    "Fields": {
+      "Item": {
+        "Name": "AssetForge",
+        "DependsOn": []
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

@@ -1,0 +1,14 @@
+{
+  "Id": "spec-assetforge-musik-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-assetforge-musik",
+        "Name": "AssetForge: Stimmung \u2192 Musik \u2014 when AssetForge Musik generiert then entsteht eine g\u00FCltige WAV-Datei mit der gew\u00FCnschten L\u00E4nge",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

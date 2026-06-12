@@ -1,0 +1,25 @@
+{
+  "Id": "spec-assetforge-textur",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "AssetForge: Beschreibung → Textur",
+        "Intent": "Stein, Ornament, Rune: stilkonsistente Texturen aus Prosa, reproduzierbar",
+        "Criteria": [
+          {
+            "Given": "eine Beschreibung wie 'verwitterter Stein mit leuchtender Rune'",
+            "When": "AssetForge läuft",
+            "Then": "entsteht ein Rezept und daraus ein gültiges PNG in der Stil-Palette"
+          },
+          {
+            "Given": "dasselbe Rezept zweimal",
+            "When": "beide PNGs verglichen werden",
+            "Then": "sind sie bytegleich"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

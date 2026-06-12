@@ -1,0 +1,13 @@
+{
+  "Id": "premise-kein-python",
+  "Payload": {
+    "Case": "PremiseNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Kein Python — nie.",
+        "Rationale": "Ein Stack: .NET. Vorgabe des Maintainers"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

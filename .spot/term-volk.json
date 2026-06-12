@@ -1,0 +1,18 @@
+{
+  "Id": "term-volk",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Volk",
+        "Definition": "Spielbare Fraktion mit eigenen Einheiten, Gebäuden und Ornamentik: Menschen, Elfen, Zwerge, Orks, Trolle, Dunkelelfen",
+        "Synonyms": [
+          "Fraktion",
+          "Rasse"
+        ],
+        "Relations": []
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

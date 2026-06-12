@@ -1,0 +1,14 @@
+{
+  "Id": "spec-terrain-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-terrain",
+        "Name": "Prozedurales Terrain \u2014 when beide Meshes verglichen werden then sind sie bitgleich",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

@@ -1,0 +1,14 @@
+{
+  "Id": "spec-terrain-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-terrain",
+        "Name": "Prozedurales Terrain \u2014 when das Mesh generiert wird then ist es deterministisch und h\u00E4lt das Tri-Budget der niedrigsten Stufe ein",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

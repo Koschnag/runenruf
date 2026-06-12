@@ -1,0 +1,24 @@
+{
+  "Id": "term-insel",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Weltsplitter",
+        "Definition": "Schwebende Insel-Welt, über Portale verbunden — eine Karte/Mission",
+        "Synonyms": [
+          "Insel"
+        ],
+        "Relations": [
+          {
+            "Case": "RelatesTo",
+            "Fields": {
+              "Item": "term-portal"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

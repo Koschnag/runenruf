@@ -1,0 +1,25 @@
+{
+  "Id": "spec-minspec-budgets",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Min-Spec-Budgets als Tests",
+        "Intent": "Pi-5-Tauglichkeit wird gemessen, nicht gehofft: Budgets sind testbare Zahlen",
+        "Criteria": [
+          {
+            "Given": "die niedrigste Grafikstufe",
+            "When": "ein Frame-Budget geprüft wird",
+            "Then": "liegen Terrain+Einheiten unter 100k Dreiecken und 150 Drawcalls"
+          },
+          {
+            "Given": "ein Sim-Tick mit 200 Einheiten",
+            "When": "auf Referenz-Hardware gemessen wird",
+            "Then": "bleibt er unter 5 ms"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

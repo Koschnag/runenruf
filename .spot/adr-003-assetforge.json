@@ -1,0 +1,16 @@
+{
+  "Id": "adr-003-assetforge",
+  "Payload": {
+    "Case": "DecisionNode",
+    "Fields": {
+      "Item": {
+        "Title": "AssetForge: Prompt → JSON-Rezept → deterministischer Generator",
+        "Context": "KI-generierte Assets müssen reproduzierbar, lizenzrein und stilkonsistent sein; Binär-Blobs in git sind Gift",
+        "Choice": "Eigenes C#-Tool: Beschreibung wird (per LLM oder Heuristik offline) zu einem Rezept; Generatoren erzeugen Texturen, Terrain, Meshes, Musik deterministisch aus Seed+Parametern",
+        "Consequences": "Assets jederzeit neu generierbar; Stil zentral steuerbar (Stil-Bibel als Rezept-Defaults); LLM optional, nie Pflicht",
+        "Supersedes": null
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

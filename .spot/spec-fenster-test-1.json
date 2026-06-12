@@ -1,0 +1,14 @@
+{
+  "Id": "spec-fenster-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-fenster",
+        "Name": "Cross-Platform-Fenster mit GL-Kontext \u2014 when das Spiel startet then \u00F6ffnet sich ein Fenster mit GL-3.3/ES-3.0-Kontext und laufender Frame-Schleife",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

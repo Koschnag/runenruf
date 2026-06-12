@@ -1,0 +1,25 @@
+{
+  "Id": "spec-avatar-rpg",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Avatar mit RPG-Kern",
+        "Intent": "Der Runengerufene levelt, lernt Fertigkeiten und trägt Ausrüstung",
+        "Criteria": [
+          {
+            "Given": "ein Avatar mit genug Erfahrung",
+            "When": "ein Level-Aufstieg verarbeitet wird",
+            "Then": "steigen seine Attribute gemäß Fertigkeitsbaum und ein Fertigkeitspunkt entsteht"
+          },
+          {
+            "Given": "ein Ausrüstungsgegenstand mit Anforderungen",
+            "When": "der Avatar sie nicht erfüllt",
+            "Then": "wird das Anlegen abgelehnt"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

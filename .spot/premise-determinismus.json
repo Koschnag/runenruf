@@ -1,0 +1,13 @@
+{
+  "Id": "premise-determinismus",
+  "Payload": {
+    "Case": "PremiseNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Die Simulation ist deterministisch: Fixed-Tick, eigener RNG, gleiche Eingaben ⇒ gleicher Zustand",
+        "Rationale": "Replays, Tests und späterer Multiplayer werden trivial statt unmöglich"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -1,0 +1,14 @@
+{
+  "Id": "spec-wirtschaft-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-wirtschaft",
+        "Name": "Ressourcen-Wirtschaft \u2014 when 100 Ticks simuliert werden then steigt der Holzvorrat messbar",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

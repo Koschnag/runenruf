@@ -1,0 +1,24 @@
+{
+  "Id": "term-monument",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Monument",
+        "Definition": "Verwitterter Steinkreis, an dem Runen gerufen werden — Spawn- und Kontrollpunkt",
+        "Synonyms": [
+          "Steinkreis"
+        ],
+        "Relations": [
+          {
+            "Case": "RelatesTo",
+            "Fields": {
+              "Item": "term-rune"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

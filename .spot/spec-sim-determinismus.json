@@ -1,0 +1,25 @@
+{
+  "Id": "spec-sim-determinismus",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Deterministische Simulation",
+        "Intent": "Gleiche Eingaben ergeben bitgleiche Zustände — Fundament für Tests, Replays, Multiplayer",
+        "Criteria": [
+          {
+            "Given": "zwei Simulationen mit gleichem Seed und gleicher Befehlsliste",
+            "When": "beide 1000 Ticks laufen",
+            "Then": "sind ihre Zustands-Hashes identisch"
+          },
+          {
+            "Given": "eine Simulation mit anderem Seed",
+            "When": "sie 1000 Ticks läuft",
+            "Then": "unterscheidet sich ihr Zustands-Hash"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

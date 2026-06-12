@@ -1,0 +1,14 @@
+{
+  "Id": "spec-wirtschaft-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-wirtschaft",
+        "Name": "Ressourcen-Wirtschaft \u2014 when der Tick verarbeitet wird then wird er abgelehnt und nichts abgezogen",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

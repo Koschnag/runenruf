@@ -1,0 +1,14 @@
+{
+  "Id": "spec-assetforge-textur-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-assetforge-textur",
+        "Name": "AssetForge: Beschreibung \u2192 Textur \u2014 when beide PNGs verglichen werden then sind sie bytegleich",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

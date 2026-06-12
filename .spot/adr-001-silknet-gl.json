@@ -1,0 +1,16 @@
+{
+  "Id": "adr-001-silknet-gl",
+  "Payload": {
+    "Case": "DecisionNode",
+    "Fields": {
+      "Item": {
+        "Title": "Silk.NET + OpenGL 3.3 Core / ES 3.0",
+        "Context": "Cross-Platform ohne Engine: M1-Mac kann GL 4.1, Pi 5 kann GL 3.1/ES 3.1, Windows alles; Vulkan+MoltenVK wäre mächtiger, aber massiv mehr Code",
+        "Choice": "Fenster/Input/GL über Silk.NET-Bindings; Shader auf GLSL-330/ES-300-Schnittmenge; Vulkan-Backend bleibt als spätere Option",
+        "Consequences": "macOS markiert GL als deprecated (funktioniert aber); dafür ein Renderer-Code für alle drei Plattformen",
+        "Supersedes": null
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

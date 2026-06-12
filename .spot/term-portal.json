@@ -1,0 +1,15 @@
+{
+  "Id": "term-portal",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Portal",
+        "Definition": "Übergang zwischen Weltsplittern",
+        "Synonyms": [],
+        "Relations": []
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

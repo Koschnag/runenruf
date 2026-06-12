@@ -1,0 +1,16 @@
+{
+  "Id": "adr-002-eigenes-ecs",
+  "Payload": {
+    "Case": "DecisionNode",
+    "Fields": {
+      "Item": {
+        "Title": "Eigene Struct-of-Arrays-Simulation statt ECS-Framework",
+        "Context": "RTS mit hunderten Einheiten auf einem Pi 5 braucht datenorientierte Updates ohne Framework-Overhead",
+        "Choice": "Einheiten als Arrays primitiver Felder in F#; Systeme sind pure Funktionen über Spans",
+        "Consequences": "Kein Framework-Lock-in; Cache-freundlich; etwas mehr Handarbeit",
+        "Supersedes": null
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

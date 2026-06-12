@@ -1,0 +1,25 @@
+{
+  "Id": "spec-runenruf",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Runen rufen",
+        "Intent": "Der Kern-Fantasy-Moment: Einheiten entstehen als gerufene Runen am Monument",
+        "Criteria": [
+          {
+            "Given": "ein Monument und genug Äther",
+            "When": "eine Einheiten-Rune gerufen wird",
+            "Then": "entsteht die Einheit am Monument und der Äther sinkt um die Kosten"
+          },
+          {
+            "Given": "der Runengerufene fällt im Kampf",
+            "When": "die Wiederbelebungszeit abläuft",
+            "Then": "ersteht er am letzten aktivierten Monument wieder auf"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

@@ -1,0 +1,25 @@
+{
+  "Id": "spec-voelker",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Sechs Völker mit Einheiten",
+        "Intent": "Die Völker-Identität von SpellForce: zwei Bünde, je eigene Einheitenlinien",
+        "Criteria": [
+          {
+            "Given": "das Domänenmodell",
+            "When": "die Völker abgefragt werden",
+            "Then": "existieren genau 6 Völker in 2 Bünden (Licht/Dunkel)"
+          },
+          {
+            "Given": "ein beliebiges Volk",
+            "When": "seine Einheitstypen abgefragt werden",
+            "Then": "hat es mindestens Arbeiter, Nahkämpfer, Fernkämpfer und ein Alleinstellungsmerkmal"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

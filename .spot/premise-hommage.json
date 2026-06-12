@@ -1,0 +1,13 @@
+{
+  "Id": "premise-hommage",
+  "Payload": {
+    "Case": "PremiseNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Hommage, kein Klon: Mechanik und Stimmung von SpellForce 1, aber eigene Namen, Lore und Assets",
+        "Rationale": "Spielmechanik ist nicht schützbar — Assets, Namen und Texte sind es"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

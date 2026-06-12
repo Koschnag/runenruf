@@ -1,0 +1,15 @@
+{
+  "Id": "risk-scope",
+  "Payload": {
+    "Case": "RiskNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Scope-Explosion: ein SpellForce-Umfang ist jahrelange Arbeit",
+        "Likelihood": "High",
+        "Impact": "Critical",
+        "Mitigation": "Vertical Slice zuerst: eine Insel, ein Volk spielbar, ein Gegner-Volk — alles Weitere nur als Spec"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

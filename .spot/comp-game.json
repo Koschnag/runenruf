@@ -1,0 +1,16 @@
+{
+  "Id": "comp-game",
+  "Payload": {
+    "Case": "ComponentNode",
+    "Fields": {
+      "Item": {
+        "Name": "Runenruf.Game",
+        "DependsOn": [
+          "comp-domain",
+          "comp-engine"
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

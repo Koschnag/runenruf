@@ -1,0 +1,17 @@
+{
+  "Id": "term-rezept",
+  "Payload": {
+    "Case": "TermNode",
+    "Fields": {
+      "Item": {
+        "Name": "Asset-Rezept",
+        "Definition": "Deterministische JSON-Beschreibung, aus der AssetForge ein Asset erzeugt — git speichert Rezepte, nicht Binärdaten",
+        "Synonyms": [
+          "Recipe"
+        ],
+        "Relations": []
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

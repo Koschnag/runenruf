@@ -1,0 +1,14 @@
+{
+  "Id": "spec-runenruf-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-runenruf",
+        "Name": "Runen rufen \u2014 when eine Einheiten-Rune gerufen wird then entsteht die Einheit am Monument und der \u00C4ther sinkt um die Kosten",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

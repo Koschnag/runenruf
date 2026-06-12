@@ -1,0 +1,15 @@
+{
+  "Id": "risk-pi5-performance",
+  "Payload": {
+    "Case": "RiskNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Pi 5 schafft die 30 FPS in Full HD nicht",
+        "Likelihood": "Medium",
+        "Impact": "High",
+        "Mitigation": "Harte Render-Budgets als testbare Invarianten (Tris, Drawcalls); Renderscale-Option; LOD von Anfang an"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

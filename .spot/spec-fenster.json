@@ -1,0 +1,25 @@
+{
+  "Id": "spec-fenster",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Cross-Platform-Fenster mit GL-Kontext",
+        "Intent": "Ein Fenster mit Frame-Loop auf Mac/Windows/Linux — das technische Fundament",
+        "Criteria": [
+          {
+            "Given": "ein Start auf einer der drei Plattformen",
+            "When": "das Spiel startet",
+            "Then": "öffnet sich ein Fenster mit GL-3.3/ES-3.0-Kontext und laufender Frame-Schleife"
+          },
+          {
+            "Given": "die Umgebung hat kein Display (CI)",
+            "When": "mit --headless gestartet wird",
+            "Then": "initialisiert die Technik ohne Fenster und beendet sich sauber"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

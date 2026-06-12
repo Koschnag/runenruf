@@ -1,0 +1,16 @@
+{
+  "Id": "adr-004-fixed-tick",
+  "Payload": {
+    "Case": "DecisionNode",
+    "Fields": {
+      "Item": {
+        "Title": "Simulation mit festem Tick (20 Hz), Rendering entkoppelt mit Interpolation",
+        "Context": "Determinismus (premise-determinismus) und Pi-5-Budget verlangen planbare Update-Kosten",
+        "Choice": "Sim-Tick 50 ms in F#, Renderer interpoliert Positionen; Eingaben werden als Befehls-Queue an Ticks gebunden",
+        "Consequences": "RTS-typisch robust; Replays = Befehlsliste + Seed",
+        "Supersedes": null
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -1,0 +1,15 @@
+{
+  "Id": "risk-gl-macos",
+  "Payload": {
+    "Case": "RiskNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Apple entfernt OpenGL in einer künftigen macOS-Version",
+        "Likelihood": "Low",
+        "Impact": "High",
+        "Mitigation": "Renderer hinter Interface (IRenderBackend); Vulkan/MoltenVK-Backend als geplanter zweiter Implementierer"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

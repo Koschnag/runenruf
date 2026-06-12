@@ -1,0 +1,14 @@
+{
+  "Id": "spec-avatar-rpg-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-avatar-rpg",
+        "Name": "Avatar mit RPG-Kern \u2014 when der Avatar sie nicht erf\u00FCllt then wird das Anlegen abgelehnt",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Pending"
+}

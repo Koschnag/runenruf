@@ -1,0 +1,25 @@
+{
+  "Id": "spec-assetforge-musik",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "AssetForge: Stimmung → Musik",
+        "Intent": "Chor-/Streicher-Stimmung à la 2003 als prozedural komponiertes, loopbares Stück",
+        "Criteria": [
+          {
+            "Given": "eine Stimmungsbeschreibung wie 'heroisch, weite Streicher'",
+            "When": "AssetForge Musik generiert",
+            "Then": "entsteht eine gültige WAV-Datei mit der gewünschten Länge"
+          },
+          {
+            "Given": "dasselbe Musik-Rezept zweimal",
+            "When": "beide WAVs verglichen werden",
+            "Then": "sind sie bytegleich"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Pending"
+}
