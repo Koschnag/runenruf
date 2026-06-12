@@ -49,7 +49,7 @@ module Sim =
     let erschaffe (seed: uint64) volk =
         let monument = { X = 0.0f; Y = 0.0f }
         { Tick = 0; RngState = seed; Volk = volk; Monument = monument
-          Lager = Map.ofList [ Holz, 0; Stein, 0; Eisen, 0; Nahrung, 50; Aether, 100 ]
+          Lager = Map.ofList [ Holz, 50; Stein, 20; Eisen, 20; Nahrung, 50; Aether, 100 ]
           Einheiten = []
           Avatar = Avatar.erschaffe monument }
 
@@ -125,3 +125,14 @@ module Sim =
         mix (uint64 welt.Avatar.Level)
         mix (uint64 (uint32 (BitConverter.SingleToInt32Bits welt.Avatar.Pos.X)))
         h
+
+/// C#-freundliche Fassade fuer Host und Tests.
+module Spiel =
+
+    let standardWelt (seed: uint64) = Sim.erschaffe seed Menschen
+
+    /// Kopfloser Lauf ohne Befehle — fuer CI-Smoke und Determinismus-Checks von aussen.
+    let kopfloserLauf (seed: uint64) (ticks: int) : uint64 =
+        Sim.erschaffe seed Menschen
+        |> Sim.lauf ticks (fun _ -> [])
+        |> Sim.hash

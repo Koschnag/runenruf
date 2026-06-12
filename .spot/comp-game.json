@@ -7,10 +7,11 @@
         "Name": "Runenruf.Game",
         "DependsOn": [
           "comp-domain",
-          "comp-engine"
+          "comp-engine",
+          "comp-assetforge"
         ]
       }
     }
   },
-  "Convergence": "Pending"
+  "Convergence": "Aligned"
 }

@@ -1,3 +1,4 @@
 bin/
 obj/
-assets/generiert/
+assets/generiert/*
+!assets/generiert/*.rezept.json

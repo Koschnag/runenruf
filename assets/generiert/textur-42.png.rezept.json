@@ -1,0 +1,8 @@
+{
+  "Beschreibung": "verwitterter Stein mit leuchtender Rune",
+  "Seed": 42,
+  "Basis": "stein",
+  "Rune": true,
+  "Risse": true,
+  "Groesse": 512
+}
