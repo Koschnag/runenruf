@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Build (Warnungen sind Fehler)
+        run: |
+          dotnet build src/Runenruf.Game --nologo
+          dotnet build tools/AssetForge --nologo
+
+      - name: Tests
+        run: dotnet test tests/Runenruf.Tests --nologo
+
+      - name: Headless-Smoke (spec-fenster)
+        run: dotnet run --project src/Runenruf.Game --no-build -- --headless
+
+      - name: AssetForge-Smoke
+        run: |
+          dotnet run --project tools/AssetForge --no-build -- textur --prompt "verwitterter Stein mit Rune" --seed 7
+          dotnet run --project tools/AssetForge --no-build -- musik --prompt "heroisch" --seed 7
+
+      - name: CDD auschecken (Konvergenz-Gates)
+        uses: actions/checkout@v4
+        with:
+          repository: Koschnag/cong-driven-development
+          path: .cdd
+
+      - name: Modell validieren + Konvergenz messen
+        run: |
+          dotnet run --project .cdd/src/Cdd.Cli -- validate
+          dotnet run --project .cdd/src/Cdd.Cli -- sync-code
+          dotnet run --project .cdd/src/Cdd.Cli -- sync-tests
