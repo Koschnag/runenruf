@@ -95,7 +95,7 @@ public sealed class GlBackend(int breite = 1920, int hoehe = 1080) : IRenderBack
             _wartendesTerrain = null;
         }
         gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-        if (_indexAnzahl == 0) return;
+        if (_indexAnzahl == 0 || _programm == 0) return; // kein Render vor gültigem Shader/Mesh
 
         gl.UseProgram(_programm);
         var mvp = Kamera() * Projektion();
@@ -114,6 +114,11 @@ public sealed class GlBackend(int breite = 1920, int hoehe = 1080) : IRenderBack
 
     private unsafe void LadeNetzInGpu(GL gl, Netz netz)
     {
+        if (_vao != 0) // vorheriges Terrain freigeben (kein GPU-Leak bei Reload)
+        {
+            gl.DeleteVertexArray(_vao);
+            gl.DeleteBuffer(_vbo); gl.DeleteBuffer(_nbo); gl.DeleteBuffer(_ebo);
+        }
         _vao = gl.GenVertexArray();
         gl.BindVertexArray(_vao);
 
@@ -165,6 +170,11 @@ public sealed class GlBackend(int breite = 1920, int hoehe = 1080) : IRenderBack
 
     public void Dispose()
     {
+        if (_gl is { } gl)
+        {
+            if (_vao != 0) { gl.DeleteVertexArray(_vao); gl.DeleteBuffer(_vbo); gl.DeleteBuffer(_nbo); gl.DeleteBuffer(_ebo); }
+            if (_programm != 0) gl.DeleteProgram(_programm);
+        }
         _fenster?.Dispose();
         _laeuft = false;
     }

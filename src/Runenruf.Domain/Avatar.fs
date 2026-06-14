@@ -55,7 +55,9 @@ module Avatar =
 
     /// spec-avatar-rpg: Anlegen nur, wenn die Anforderungen erfuellt sind.
     let legeAn (g: Gegenstand) (a: Runengerufener) =
-        if a.Attribute.Staerke >= g.MinStaerke && a.Attribute.Geschick >= g.MinGeschick then
+        if a.Ausruestung |> List.exists (fun x -> x.Name = g.Name) then
+            Error (sprintf "%s ist bereits angelegt" g.Name)
+        elif a.Attribute.Staerke >= g.MinStaerke && a.Attribute.Geschick >= g.MinGeschick then
             Ok { a with Ausruestung = g :: a.Ausruestung }
         else
             Error (sprintf "Anforderungen nicht erfuellt: %s braucht Staerke %d, Geschick %d" g.Name g.MinStaerke g.MinGeschick)
