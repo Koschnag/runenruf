@@ -38,6 +38,11 @@
         StateHasChanged();
 
         // An den WebGL2-Renderer übergeben (ES-300-Shader)
-        await JS.InvokeVoidAsync("runenruf.render", "spielcanvas", netz.Positionen, netz.Normalen, netz.Indizes);
+        var gerendert = await JS.InvokeAsync<bool>("runenruf.render", "spielcanvas", netz.Positionen, netz.Normalen, netz.Indizes);
+        if (!gerendert)
+        {
+            status = "WebGL2 ist in diesem Browser nicht verfügbar — bitte einen aktuellen Browser nutzen.";
+            StateHasChanged();
+        }
     }
 }
