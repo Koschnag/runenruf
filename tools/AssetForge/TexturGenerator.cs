@@ -47,7 +47,7 @@ public static class TexturGenerator
             }
 
             int i = (y * n + x) * 4;
-            px[i] = (byte)rr; px[i + 1] = (byte)gg; px[i + 2] = (byte)bb; px[i + 3] = 255;
+            px[i] = (byte)Math.Clamp(rr, 0f, 255f); px[i + 1] = (byte)Math.Clamp(gg, 0f, 255f); px[i + 2] = (byte)Math.Clamp(bb, 0f, 255f); px[i + 3] = 255;
         }
         return PngSchreiber.Schreibe(n, n, px);
     }

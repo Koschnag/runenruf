@@ -38,11 +38,14 @@ while (true)
     double delta = jetzt - zuletzt;
     zuletzt = jetzt;
     simAkku += delta;
-    while (simAkku >= 0.05)
+    int aufholTicks = 0;
+    while (simAkku >= 0.05 && aufholTicks < 5) // Catch-up deckeln gegen 'spiral of death' bei GL-Stall
     {
         welt = Sim.tick(Microsoft.FSharp.Collections.FSharpList<Befehl>.Empty, welt);
         simAkku -= 0.05;
+        aufholTicks++;
     }
+    if (simAkku > 0.05) simAkku = 0; // Rückstand verwerfen statt aufstauen
     if (!backend.Frame(delta)) break;
 }
 return 0;

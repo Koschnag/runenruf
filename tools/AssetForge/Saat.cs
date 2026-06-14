@@ -17,5 +17,9 @@ public struct Saat(ulong zustand)
     /// <summary>Gleichverteilt in [0, 1).</summary>
     public double Anteil() => (Naechste() >> 11) * (1.0 / (1UL << 53));
 
-    public int Bereich(int minInkl, int maxExkl) => minInkl + (int)(Naechste() % (ulong)(maxExkl - minInkl));
+    public int Bereich(int minInkl, int maxExkl)
+    {
+        if (maxExkl <= minInkl) return minInkl; // leerer/ungültiger Bereich → untere Grenze statt Division durch Null
+        return minInkl + (int)(Naechste() % (ulong)(maxExkl - minInkl));
+    }
 }

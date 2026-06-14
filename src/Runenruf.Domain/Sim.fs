@@ -123,7 +123,11 @@ module Sim =
             mix (uint64 (uint32 (BitConverter.SingleToInt32Bits e.Pos.Y)))
             mix (uint64 e.Leben)
         mix (uint64 welt.Avatar.Level)
+        mix (uint64 welt.Avatar.Erfahrung)
+        mix (uint64 welt.Avatar.FertigkeitsPunkte)
+        mix (match welt.Avatar.WiederbelebungIn with Some n -> uint64 n + 1UL | None -> 0UL)
         mix (uint64 (uint32 (BitConverter.SingleToInt32Bits welt.Avatar.Pos.X)))
+        mix (uint64 (uint32 (BitConverter.SingleToInt32Bits welt.Avatar.Pos.Y)))
         h
 
 /// C#-freundliche Fassade fuer Host und Tests.

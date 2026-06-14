@@ -205,3 +205,14 @@ let ``Release — when das Modell inkonsistent ist then bricht das Gate vor dem 
     Assert.True(releaseYml.Contains "sync-code", "Gate muss cdd sync-code ausfuehren")
     Assert.True(releaseYml.Contains "sync-tests", "Gate muss cdd sync-tests ausfuehren")
     Assert.True(releaseYml.Contains "needs: gate", "Build muss vom Gate abhaengen")
+
+[<Fact>]
+let ``Avatar — derselbe Gegenstand kann nicht doppelt angelegt werden`` () =
+    let avatar = Avatar.erschaffe { X = 0.0f; Y = 0.0f }
+    let ring = { Name = "Ring der Sammler"; MinStaerke = 0; MinGeschick = 0; Bonus = 1 }
+    match Avatar.legeAn ring avatar with
+    | Error e -> failwith e
+    | Ok mitRing ->
+        match Avatar.legeAn ring mitRing with
+        | Ok _ -> failwith "Doppel-Anlegen haette abgelehnt werden muessen"
+        | Error meldung -> Assert.Contains("bereits angelegt", meldung)
