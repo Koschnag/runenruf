@@ -50,42 +50,44 @@
     return s;
   }
 
+  // GL-Ressourcen pro Canvas einmalig anlegen und wiederverwenden (kein Leak bei wiederholtem Rendern).
+  const cache = new Map();
+  function init(cv) {
+    const gl = cv.getContext("webgl2");
+    if (!gl) return null;
+    const prog = gl.createProgram();
+    gl.attachShader(prog, shader(gl, gl.VERTEX_SHADER, VS));
+    gl.attachShader(prog, shader(gl, gl.FRAGMENT_SHADER, FS));
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { console.error(gl.getProgramInfoLog(prog)); return null; }
+    const vao = gl.createVertexArray();
+    gl.bindVertexArray(vao);
+    const vbo = gl.createBuffer(), nbo = gl.createBuffer(), ebo = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vbo); gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0); gl.enableVertexAttribArray(0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, nbo); gl.vertexAttribPointer(1,3,gl.FLOAT,false,0,0); gl.enableVertexAttribArray(1);
+    gl.enable(gl.DEPTH_TEST);
+    gl.clearColor(0.45, 0.55, 0.70, 1);
+    return { gl, prog, vao, vbo, nbo, ebo, mvpLoc: gl.getUniformLocation(prog, "mvp") };
+  }
+
   window.runenruf = {
     render(canvasId, positions, normals, indices) {
       const cv = document.getElementById(canvasId);
-      const gl = cv.getContext("webgl2");
-      if (!gl) { console.error("WebGL2 nicht verfügbar"); return false; }
+      if (!cv) return false;
+      let st = cache.get(cv);
+      if (!st) { st = init(cv); if (!st) { console.error("WebGL2 nicht verfügbar"); return false; } cache.set(cv, st); }
+      const { gl, prog, vao, vbo, nbo, ebo, mvpLoc } = st;
 
-      const prog = gl.createProgram();
-      gl.attachShader(prog, shader(gl, gl.VERTEX_SHADER, VS));
-      gl.attachShader(prog, shader(gl, gl.FRAGMENT_SHADER, FS));
-      gl.linkProgram(prog);
-      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { console.error(gl.getProgramInfoLog(prog)); return false; }
-
-      const vao = gl.createVertexArray();
       gl.bindVertexArray(vao);
-      const vbo = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-      gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0); gl.enableVertexAttribArray(0);
-      const nbo = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, nbo);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals), gl.STATIC_DRAW);
-      gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0); gl.enableVertexAttribArray(1);
-      const ebo = gl.createBuffer();
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ebo);
-      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(indices), gl.STATIC_DRAW);
+      gl.bindBuffer(gl.ARRAY_BUFFER, vbo); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+      gl.bindBuffer(gl.ARRAY_BUFFER, nbo); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals), gl.STATIC_DRAW);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ebo); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(indices), gl.STATIC_DRAW);
 
-      gl.enable(gl.DEPTH_TEST);
-      gl.clearColor(0.45, 0.55, 0.70, 1);
       gl.viewport(0, 0, cv.width, cv.height);
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-      const proj = perspektive(Math.PI/4, cv.width/cv.height, 0.1, 500);
-      const view = lookAt([50,55,105], [50,0,45], [0,1,0]);
-      const mvp = mul(proj, view);   // proj * view (Modell = Identität)
+      const mvp = mul(perspektive(Math.PI/4, cv.width/cv.height, 0.1, 500), lookAt([50,55,105], [50,0,45], [0,1,0]));
       gl.useProgram(prog);
-      gl.uniformMatrix4fv(gl.getUniformLocation(prog, "mvp"), false, mvp);
+      gl.uniformMatrix4fv(mvpLoc, false, mvp);
       gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_INT, 0);
       return true;
     },
