@@ -1,11 +1,12 @@
 {
-  "Id": "comp-assetforge",
+  "Id": "comp-web-spiel",
   "Payload": {
     "Case": "ComponentNode",
     "Fields": {
       "Item": {
-        "Name": "AssetForge",
+        "Name": "Runenruf.Web",
         "DependsOn": [
+          "comp-domain",
           "comp-assetforge-core"
         ]
       }

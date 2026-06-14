@@ -18,6 +18,7 @@ jobs:
       - name: Build (Warnungen sind Fehler)
         run: |
           dotnet build src/Runenruf.Game --nologo
+          dotnet build src/Runenruf.Web --nologo
           dotnet build tools/AssetForge --nologo
 
       - name: Tests

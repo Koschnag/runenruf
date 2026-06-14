@@ -1,13 +1,11 @@
 {
-  "Id": "comp-assetforge",
+  "Id": "comp-assetforge-core",
   "Payload": {
     "Case": "ComponentNode",
     "Fields": {
       "Item": {
-        "Name": "AssetForge",
-        "DependsOn": [
-          "comp-assetforge-core"
-        ]
+        "Name": "AssetForge.Core",
+        "DependsOn": []
       }
     }
   },

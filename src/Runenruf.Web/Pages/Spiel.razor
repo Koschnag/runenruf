@@ -1,0 +1,43 @@
+@page "/"
+@inject IJSRuntime JS
+@using AssetForge
+@using Runenruf.Domain
+
+<div class="hud">
+  <h1>Runenruf <span>— im Browser (WebGL2)</span></h1>
+  <p>@status</p>
+  <button @onclick="NeuerSplitter">⟳ Anderer Weltsplitter</button>
+</div>
+<canvas id="spielcanvas" width="1280" height="720"></canvas>
+
+@code {
+    private string status = "Lade …";
+    private ulong seed = 7;
+
+    protected override async Task OnAfterRenderAsync(bool first)
+    {
+        if (first) await Rendern();
+    }
+
+    private async Task NeuerSplitter()
+    {
+        seed += 1;
+        await Rendern();
+    }
+
+    private async Task Rendern()
+    {
+        // Terrain aus dem Rezept erzeugen (AssetForge, pure .NET → WASM)
+        var rezept = PromptDeuter.Terrain("sanfte Hügel, schwebender Weltsplitter", seed);
+        var netz = TerrainGenerator.Erzeuge(rezept);
+
+        // Deterministische Simulation laufen lassen (F#-Domäne → WASM)
+        var hash = global::Runenruf.Domain.Spiel.kopfloserLauf(seed, 100);
+
+        status = $"Weltsplitter #{seed} · {netz.Dreiecke} Dreiecke · Sim-Hash {hash:x8} · gerechnet im Browser";
+        StateHasChanged();
+
+        // An den WebGL2-Renderer übergeben (ES-300-Shader)
+        await JS.InvokeVoidAsync("runenruf.render", "spielcanvas", netz.Positionen, netz.Normalen, netz.Indizes);
+    }
+}
