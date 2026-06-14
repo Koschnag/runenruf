@@ -231,3 +231,22 @@ let ``Avatar — derselbe Gegenstand kann nicht doppelt angelegt werden`` () =
         match Avatar.legeAn ring mitRing with
         | Ok _ -> failwith "Doppel-Anlegen haette abgelehnt werden muessen"
         | Error meldung -> Assert.Contains("bereits angelegt", meldung)
+
+// ===== Browser-Spiel (spec-browser-spiel) =====
+
+[<Fact; Trait("spot", "spec-browser-spiel-test-1")>]
+let ``Browser — when das Terrain gerendert wird then nutzt der Renderer WebGL2 und ES-300-Shader`` () =
+    let renderJs =
+        IO.Path.Combine(repoWurzel (IO.Directory.GetCurrentDirectory()), "src", "Runenruf.Web", "wwwroot", "render.js")
+        |> IO.File.ReadAllText
+    Assert.Contains("getContext(\"webgl2\")", renderJs)
+    Assert.Contains("#version 300 es", renderJs)
+
+[<Fact; Trait("spot", "spec-browser-spiel-test-2")>]
+let ``Browser — when beide denselben Seed 100 Ticks laufen then ist der Zustands-Hash identisch`` () =
+    // Die Simulation, die im Browser (WASM) läuft, ist dieselbe pure F#-Domäne wie auf dem Desktop:
+    // gleicher Seed ⇒ gleicher Hash, unabhängig von der Plattform (das ist die Portabilitäts-Garantie).
+    let a = Spiel.kopfloserLauf 7UL 100
+    let b = Spiel.kopfloserLauf 7UL 100
+    Assert.Equal(a, b)
+    Assert.NotEqual(a, Spiel.kopfloserLauf 8UL 100)

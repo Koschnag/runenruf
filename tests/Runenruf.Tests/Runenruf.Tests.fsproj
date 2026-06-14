@@ -14,6 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Runenruf.Domain\Runenruf.Domain.fsproj" />
     <ProjectReference Include="..\..\src\Runenruf.Engine\Runenruf.Engine.csproj" />
-    <ProjectReference Include="..\..\tools\AssetForge\AssetForge.csproj" />
+    <ProjectReference Include="..\..\tools\AssetForge.Core\AssetForge.Core.csproj" />
   </ItemGroup>
 </Project>

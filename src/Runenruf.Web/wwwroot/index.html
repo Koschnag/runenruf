@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Runenruf — Browser</title>
+    <base href="/" />
+    <style>
+        body { margin: 0; background: #1a1f29; color: #e8e3d8; font-family: system-ui, sans-serif; }
+        .hud { padding: 10px 16px; }
+        .hud h1 { margin: 0 0 4px; font-size: 20px; }
+        .hud h1 span { color: #7ad7ff; font-weight: normal; font-size: 15px; }
+        .hud p { margin: 0 0 8px; color: #b8b0a0; font-size: 13px; }
+        .hud button { background: #2a3550; color: #e8e3d8; border: 1px solid #44506a; padding: 5px 12px; border-radius: 4px; cursor: pointer; }
+        canvas { display: block; width: 100%; max-width: 1280px; margin: 0 auto; background: #000; }
+        #blazor-error-ui { background: #b33; color: #fff; padding: 8px; display: none; position: fixed; bottom: 0; width: 100%; }
+        .loading-progress-text { padding: 20px; }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="loading-progress-text">Runenruf lädt im Browser …</div>
+    </div>
+
+    <div id="blazor-error-ui">
+        Ein Fehler ist aufgetreten.
+        <a href="." class="reload">Neu laden</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="render.js"></script>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>

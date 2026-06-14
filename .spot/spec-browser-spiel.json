@@ -1,0 +1,25 @@
+{
+  "Id": "spec-browser-spiel",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Spiel im Browser (WebGL2/WASM)",
+        "Intent": "Dasselbe Spiel läuft im Browser: F#-Simulation und Terrain in WebAssembly, gerendert mit WebGL2 (ES-300-Shader)",
+        "Criteria": [
+          {
+            "Given": "ein Weltsplitter-Rezept im Browser",
+            "When": "das Terrain gerendert wird",
+            "Then": "nutzt der Renderer WebGL2 und ES-300-Shader"
+          },
+          {
+            "Given": "dieselbe Simulation im Browser (WASM) wie auf dem Desktop",
+            "When": "beide denselben Seed 100 Ticks laufen",
+            "Then": "ist der Zustands-Hash identisch (plattformunabhängig)"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

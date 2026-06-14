@@ -1,0 +1,14 @@
+{
+  "Id": "spec-browser-spiel-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-browser-spiel",
+        "Name": "Spiel im Browser (WebGL2/WASM) \u2014 when das Terrain gerendert wird then nutzt der Renderer WebGL2 und ES-300-Shader",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

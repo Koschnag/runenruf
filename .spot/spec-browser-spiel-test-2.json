@@ -1,0 +1,14 @@
+{
+  "Id": "spec-browser-spiel-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-browser-spiel",
+        "Name": "Spiel im Browser (WebGL2/WASM) \u2014 when beide denselben Seed 100 Ticks laufen then ist der Zustands-Hash identisch (plattformunabh\u00E4ngig)",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}
