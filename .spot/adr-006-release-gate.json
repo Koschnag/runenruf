@@ -1,0 +1,16 @@
+{
+  "Id": "adr-006-release-gate",
+  "Payload": {
+    "Case": "DecisionNode",
+    "Fields": {
+      "Item": {
+        "Title": "CDD als Release-Gate und Notes-Quelle, beide Repos eigenständig",
+        "Context": "Releases sollen mit der CDD-Planung synchron sein; ein einziger Repo-übergreifender Workflow wäre fragil",
+        "Choice": "Runenruf-Release checkt CDD aus, lässt validate/sync-code/sync-tests als Gate laufen und generiert die Notes aus export-context; CDD bleibt eigenes Repo mit eigenen Releases",
+        "Consequences": "Lose Kopplung statt Monorepo; CDD-Lücken fallen bei jedem Release auf (Co-Evolution); CDD-Version im Release-Workflow gepinnt für Reproduzierbarkeit",
+        "Supersedes": null
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

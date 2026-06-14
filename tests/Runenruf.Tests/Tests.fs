@@ -175,3 +175,33 @@ let ``Fenster — when mit headless gestartet wird then initialisiert die Techni
     for _ in 1 .. 30 do backend.Frame(1.0 / 30.0) |> ignore
     Assert.Equal(30, backend.GerenderteFrames)
     Assert.Equal(1, backend.Statistik.Dreiecke)
+
+// ===== Release-Pipeline (spec-release-pipeline) =====
+// Die Pipeline ist Infrastruktur — die Tests messen den Workflow als Artefakt:
+// hält er die vier Zielplattformen und das CDD-Gate ein?
+
+let rec private repoWurzel (dir: string) =
+    if IO.File.Exists(IO.Path.Combine(dir, "Runenruf.sln"))
+       || IO.Directory.Exists(IO.Path.Combine(dir, ".github")) then dir
+    else
+        let eltern = IO.Directory.GetParent dir
+        if isNull eltern then failwith "Repo-Wurzel nicht gefunden" else repoWurzel eltern.FullName
+
+let private releaseYml =
+    IO.Path.Combine(repoWurzel (IO.Directory.GetCurrentDirectory()), ".github", "workflows", "release.yml")
+    |> IO.File.ReadAllText
+
+[<Fact; Trait("spot", "spec-release-pipeline-test-1")>]
+let ``Release — when die Pipeline laeuft then erscheinen Binaries fuer alle vier Zielplattformen`` () =
+    for rid in [ "osx-arm64"; "win-x64"; "linux-x64"; "linux-arm64" ] do
+        Assert.True(releaseYml.Contains rid, sprintf "Release-Workflow muss %s bauen" rid)
+    Assert.True(releaseYml.Contains "self-contained", "Binaries muessen self-contained sein")
+    Assert.True(releaseYml.Contains "action-gh-release", "es muss ein GitHub-Release entstehen")
+
+[<Fact; Trait("spot", "spec-release-pipeline-test-2")>]
+let ``Release — when das Modell inkonsistent ist then bricht das Gate vor dem Build ab`` () =
+    // Das Gate laeuft CDD-Pruefungen; Build haengt per needs am Gate → kein Build ohne gruenes Modell.
+    Assert.True(releaseYml.Contains "validate", "Gate muss cdd validate ausfuehren")
+    Assert.True(releaseYml.Contains "sync-code", "Gate muss cdd sync-code ausfuehren")
+    Assert.True(releaseYml.Contains "sync-tests", "Gate muss cdd sync-tests ausfuehren")
+    Assert.True(releaseYml.Contains "needs: gate", "Build muss vom Gate abhaengen")

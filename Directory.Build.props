@@ -1,0 +1,9 @@
+<Project>
+  <!-- Zentrale Version — der Release-Workflow überschreibt sie via -p:Version aus dem Tag. -->
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <Authors>Koschnag</Authors>
+    <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Koschnag/runenruf</RepositoryUrl>
+  </PropertyGroup>
+</Project>

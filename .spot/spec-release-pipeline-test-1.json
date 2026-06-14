@@ -1,0 +1,14 @@
+{
+  "Id": "spec-release-pipeline-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-release-pipeline",
+        "Name": "Release-Pipeline mit CDD-Gate \u2014 when die Release-Pipeline l\u00E4uft then erscheinen self-contained Binaries f\u00FCr osx-arm64 (M1), win-x64, linux-x64 und linux-arm64 (Pi 5) als GitHub-Release",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}
