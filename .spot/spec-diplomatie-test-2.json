@@ -1,0 +1,14 @@
+{
+  "Id": "spec-diplomatie-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-diplomatie",
+        "Name": "Diplomatie zwischen V\u00F6lkern \u2014 when ihre diplomatische Beziehung abgefragt wird then gelten sie als verfeindet",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

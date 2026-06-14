@@ -42,6 +42,21 @@ let ``Sechs Voelker — when seine Einheitstypen abgefragt werden then hat es Gr
         Assert.True(Set.contains Fernkampf rollen, sprintf "%A braucht Fernkampf" volk)
         Assert.NotEmpty(Voelker.alleinstellung volk)
 
+// ===== Diplomatie =====
+
+[<Fact; Trait("spot", "spec-diplomatie-test-1")>]
+let ``Diplomatie — when die Beziehung zweier Voelker desselben Bundes abgefragt wird then sind sie verbuendet`` () =
+    Assert.Equal(Licht, Voelker.bund Menschen)
+    Assert.Equal(Licht, Voelker.bund Elfen)
+    Assert.Equal(Verbuendet, Voelker.beziehung Menschen Elfen)
+    Assert.True(Voelker.sindVerbuendet Menschen Elfen)
+
+[<Fact; Trait("spot", "spec-diplomatie-test-2")>]
+let ``Diplomatie — when die Beziehung zweier Voelker verschiedener Buende abgefragt wird then sind sie verfeindet`` () =
+    Assert.NotEqual(Voelker.bund Menschen, Voelker.bund Orks)
+    Assert.Equal(Verfeindet, Voelker.beziehung Menschen Orks)
+    Assert.False(Voelker.sindVerbuendet Menschen Orks)
+
 // ===== Wirtschaft =====
 
 [<Fact; Trait("spot", "spec-wirtschaft-test-1")>]

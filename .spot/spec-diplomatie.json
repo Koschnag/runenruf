@@ -1,0 +1,25 @@
+{
+  "Id": "spec-diplomatie",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Diplomatie zwischen Völkern",
+        "Intent": "Zwei Völker sind verbündet, wenn sie demselben Bund (Licht/Dunkel) angehören, sonst verfeindet",
+        "Criteria": [
+          {
+            "Given": "zwei Völker desselben Bundes (z. B. Menschen und Elfen)",
+            "When": "ihre diplomatische Beziehung abgefragt wird",
+            "Then": "gelten sie als verbündet"
+          },
+          {
+            "Given": "zwei Völker verschiedener Bünde (z. B. Menschen und Orks)",
+            "When": "ihre diplomatische Beziehung abgefragt wird",
+            "Then": "gelten sie als verfeindet"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

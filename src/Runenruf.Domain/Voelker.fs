@@ -20,6 +20,11 @@ type Rolle =
     | Magie
     | Belagerung
 
+/// Diplomatische Beziehung zweier Völker (spec-diplomatie).
+type Beziehung =
+    | Verbuendet
+    | Verfeindet
+
 /// Bauplan einer rufbaren Einheit (term-rune): Kosten, Kampfwerte.
 type EinheitTyp =
     { Volk         : Volk
@@ -39,6 +44,12 @@ module Voelker =
     let bund = function
         | Menschen | Elfen | Zwerge -> Licht
         | Orks | Trolle | Dunkelelfen -> Dunkel
+
+    /// Diplomatie (spec-diplomatie): gleicher Bund verbündet, sonst verfeindet.
+    let beziehung a b =
+        if bund a = bund b then Verbuendet else Verfeindet
+
+    let sindVerbuendet a b = beziehung a b = Verbuendet
 
     let private e volk name rolle holz eisen aether leben schaden tempo =
         { Volk = volk; Name = name; Rolle = rolle
