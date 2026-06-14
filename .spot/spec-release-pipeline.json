@@ -1,0 +1,25 @@
+{
+  "Id": "spec-release-pipeline",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Release-Pipeline mit CDD-Gate",
+        "Intent": "Ein Tag erzeugt fertig compilierte Releases für alle Zielplattformen — aber nur, wenn das CDD-Modell konvergiert ist; die Release-Notes entstehen aus dem Modell",
+        "Criteria": [
+          {
+            "Given": "ein Versions-Tag v* und ein konsistentes CDD-Modell",
+            "When": "die Release-Pipeline läuft",
+            "Then": "erscheinen self-contained Binaries für osx-arm64 (M1), win-x64, linux-x64 und linux-arm64 (Pi 5) als GitHub-Release"
+          },
+          {
+            "Given": "ein Tag, aber das CDD-Modell ist inkonsistent oder Tests sind rot",
+            "When": "die Release-Pipeline läuft",
+            "Then": "bricht sie vor dem Build ab und es entsteht kein Release"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

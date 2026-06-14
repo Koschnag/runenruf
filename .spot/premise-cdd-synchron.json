@@ -1,0 +1,13 @@
+{
+  "Id": "premise-cdd-synchron",
+  "Payload": {
+    "Case": "PremiseNode",
+    "Fields": {
+      "Item": {
+        "Statement": "Plan (CDD-Modell) und Auslieferung (Release) sind synchron: kein Binary ohne konvergiertes Modell, Release-Notes kommen aus dem Modell",
+        "Rationale": "So wird der Anforderungsstand bei jeder Auslieferung mit-evaluiert; das Spiel ist zugleich Dauertest für CDD"
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

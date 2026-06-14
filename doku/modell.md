@@ -1,8 +1,8 @@
 # SPOT-Kontext
 
-Generiert aus 61 Knoten (`cdd export-context`). Der SPOT-Graph ist die Quelle — dieses Dokument ist Derivat und ersetzt handgepflegte Doku.
+Generiert aus 66 Knoten (`cdd export-context`). Der SPOT-Graph ist die Quelle — dieses Dokument ist Derivat und ersetzt handgepflegte Doku.
 
-**Konvergenz:** Aligned 50 · Pending 11 · Diverged 0 · Orphaned 0
+**Konvergenz:** Aligned 55 · Pending 11 · Diverged 0 · Orphaned 0
 
 ## Ubiquitäre Sprache (Ontologie)
 
@@ -31,6 +31,7 @@ Diese Begriffe sind verbindlich — in Code, Antworten und allen Artefakten:
 
 ## Prämissen (nicht verhandelbar)
 
+- **Plan (CDD-Modell) und Auslieferung (Release) sind synchron: kein Binary ohne konvergiertes Modell, Release-Notes kommen aus dem Modell** — So wird der Anforderungsstand bei jeder Auslieferung mit-evaluiert; das Spiel ist zugleich Dauertest für CDD
 - **Die Simulation ist deterministisch: Fixed-Tick, eigener RNG, gleiche Eingaben ⇒ gleicher Zustand** — Replays, Tests und späterer Multiplayer werden trivial statt unmöglich
 - **Hommage, kein Klon: Mechanik und Stimmung von SpellForce 1, aber eigene Namen, Lore und Assets** — Spielmechanik ist nicht schützbar — Assets, Namen und Texte sind es
 - **Kein Python — nie.** — Ein Stack: .NET. Vorgabe des Maintainers
@@ -65,6 +66,11 @@ Diese Begriffe sind verbindlich — in Code, Antworten und allen Artefakten:
 - **Entscheidung:** PublishAot für Runenruf.Game und AssetForge; Reflection-freie Serialisierung (Source-Generator)
 - **Konsequenzen:** Trim-Warnungen werden Fehler; ein paar Bibliotheks-Einschränkungen
 
+### CDD als Release-Gate und Notes-Quelle, beide Repos eigenständig (`adr-006-release-gate`)
+- **Kontext:** Releases sollen mit der CDD-Planung synchron sein; ein einziger Repo-übergreifender Workflow wäre fragil
+- **Entscheidung:** Runenruf-Release checkt CDD aus, lässt validate/sync-code/sync-tests als Gate laufen und generiert die Notes aus export-context; CDD bleibt eigenes Repo mit eigenen Releases
+- **Konsequenzen:** Lose Kopplung statt Monorepo; CDD-Lücken fallen bei jedem Release auf (Co-Evolution); CDD-Version im Release-Workflow gepinnt für Reproduzierbarkeit
+
 ## Spezifikationen
 
 ### AssetForge: Stimmung → Musik (`spec-assetforge-musik`, Pending)
@@ -96,6 +102,12 @@ Diese Begriffe sind verbindlich — in Code, Antworten und allen Artefakten:
 
 - GIVEN die niedrigste Grafikstufe WHEN ein Frame-Budget geprüft wird THEN liegen Terrain+Einheiten unter 100k Dreiecken und 150 Drawcalls
 - GIVEN ein Sim-Tick mit 200 Einheiten WHEN auf Referenz-Hardware gemessen wird THEN bleibt er unter 5 ms
+
+### Release-Pipeline mit CDD-Gate (`spec-release-pipeline`, Aligned)
+**Intent:** Ein Tag erzeugt fertig compilierte Releases für alle Zielplattformen — aber nur, wenn das CDD-Modell konvergiert ist; die Release-Notes entstehen aus dem Modell
+
+- GIVEN ein Versions-Tag v* und ein konsistentes CDD-Modell WHEN die Release-Pipeline läuft THEN erscheinen self-contained Binaries für osx-arm64 (M1), win-x64, linux-x64 und linux-arm64 (Pi 5) als GitHub-Release
+- GIVEN ein Tag, aber das CDD-Modell ist inkonsistent oder Tests sind rot WHEN die Release-Pipeline läuft THEN bricht sie vor dem Build ab und es entsteht kein Release
 
 ### Runen rufen (`spec-runenruf`, Pending)
 **Intent:** Der Kern-Fantasy-Moment: Einheiten entstehen als gerufene Runen am Monument

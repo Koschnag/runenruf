@@ -1,0 +1,14 @@
+{
+  "Id": "spec-release-pipeline-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-release-pipeline",
+        "Name": "Release-Pipeline mit CDD-Gate \u2014 when die Release-Pipeline l\u00E4uft then bricht sie vor dem Build ab und es entsteht kein Release",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}
