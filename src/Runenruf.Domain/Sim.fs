@@ -30,6 +30,8 @@ type Einheit =
 type Befehl =
     | RufeRune of EinheitTyp
     | BefehleSammeln of einheit: int * Ressource
+    /// Direkter Lagerverbrauch (Ritual, Bau, Handel): nimmt Menge der Ressource aus dem Lager.
+    | Verbrauch of Ressource * int
 
 /// Der komplette Spielzustand eines Weltsplitters — pur, deterministisch (adr-004).
 type Welt =
@@ -81,6 +83,16 @@ module Sim =
                 Einheiten =
                     welt.Einheiten
                     |> List.mapi (fun j e -> if j = i then { e with Auftrag = Sammeln r } else e) }
+        | Verbrauch (r, menge) ->
+            // spec-siegel-lager-nichtnegativ: Lager nie negativ. Eine Ausgabe ueber den
+            // vorhandenen Bestand hinaus wird abgelehnt; nichts wird abgezogen. Da die
+            // Befehle eines Ticks nacheinander auf dasselbe Lager wirken, faengt diese
+            // Pruefung auch die kumulative Ueberausgabe mehrerer Befehle innerhalb eines Ticks.
+            let bestand = Map.tryFind r welt.Lager |> Option.defaultValue 0
+            if menge > 0 && bestand >= menge then
+                { welt with Lager = Map.add r (bestand - menge) welt.Lager }
+            else
+                welt
 
     /// Ein deterministischer Simulationsschritt: Befehle anwenden, Wirtschaft, Avatar, RNG.
     let tick (befehle: Befehl list) (welt: Welt) =

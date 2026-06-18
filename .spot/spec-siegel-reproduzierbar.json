@@ -1,0 +1,25 @@
+{
+  "Id": "spec-siegel-reproduzierbar",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Siegel: reproduzierbarer Weltsplitter-Lauf",
+        "Intent": "Die Koh\u00E4renz-Garantie verlangt, dass ein vollst\u00E4ndiger Weltsplitter-Lauf \u2014 Wirtschaft, Unterhalt und Runenruf zusammenwirkend \u2014 bei gleichem Seed und gleicher Tick-Zahl bitgleich reproduzierbar ist. Erst das macht das Spiel als Dauertest f\u00FCr CDD belastbar: jeder gr\u00FCne Lauf ist wiederholbar. Dies hebt spec-sim-determinismus von der generischen Sim auf den integrierten Weltsplitter-Lauf.",
+        "Criteria": [
+          {
+            "Given": "zwei frische Weltsplitter aus demselben Seed und derselben Befehlsliste",
+            "When": "beide genau N Ticks via Sim.tick laufen",
+            "Then": "ist ihr End-Zustands-Hash identisch"
+          },
+          {
+            "Given": "zwei L\u00E4ufe aus demselben Seed und derselben Befehlsliste, aber mit unterschiedlicher Tick-Zahl",
+            "When": "beide via Sim.tick laufen",
+            "Then": "ist ihr End-Zustands-Hash verschieden (der Hash bildet den Fortschritt ab)"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

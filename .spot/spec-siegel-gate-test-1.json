@@ -1,0 +1,14 @@
+{
+  "Id": "spec-siegel-gate-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-siegel-gate",
+        "Name": "Siegel: Koh\u00E4renz-Gate \u00FCber viele Seeds \u2014 when jeder Seed genau N Ticks via Sim.tick l\u00E4uft then bleibt f\u00FCr jeden Seed an jedem Tick jeder Lagerstand \u003E= 0",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

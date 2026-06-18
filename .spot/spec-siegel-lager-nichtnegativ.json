@@ -1,0 +1,25 @@
+{
+  "Id": "spec-siegel-lager-nichtnegativ",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Siegel: Lager nie negativ \u00FCber den Lauf",
+        "Intent": "Ein Weltsplitter darf nie in einen unm\u00F6glichen Zustand geraten. Negative Lagerst\u00E4nde sind unspielbar (Schulden statt Knappheit) und untergraben die Determinismus-Garantie. Das Siegel hebt die Nichtnegativit\u00E4t von Nahrung allein auf jede Ressource und auf den gesamten Lauf \u2014 als \u00FCber alle Ticks gepr\u00FCfte Eigenschaft, nicht nur am Endzustand.",
+        "Criteria": [
+          {
+            "Given": "ein Weltsplitter mit festem Seed und einer Befehlsliste aus Sammeln, RufeRune und Verbrauch \u00FCber viele Ticks",
+            "When": "der Lauf vollst\u00E4ndig via Sim.tick verarbeitet wird",
+            "Then": "ist an jedem Tick und f\u00FCr jede Ressource (Holz, Stein, Eisen, Nahrung, \u00C4ther) der Lagerstand \u003E= 0"
+          },
+          {
+            "Given": "ein Tick, dessen Befehle zusammen mehr von einer Ressource ausgeben wollen, als im Lager vorhanden ist",
+            "When": "dieser Tick via Sim.tick verarbeitet wird",
+            "Then": "wird die \u00DCberausgabe abgelehnt und kein Lagerstand wird negativ"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

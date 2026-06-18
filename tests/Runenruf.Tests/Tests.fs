@@ -24,6 +24,134 @@ let ``Deterministische Simulation — when sie 1000 Ticks laeuft then unterschei
     let lauf seed = Sim.erschaffe seed Menschen |> Sim.lauf 1000 (befehle Menschen) |> Sim.hash
     Assert.NotEqual(lauf 42UL, lauf 43UL)
 
+// ===== Siegel: reproduzierbarer Weltsplitter-Lauf (spec-siegel-reproduzierbar) =====
+// Hebt spec-sim-determinismus von der generischen Sim auf den integrierten Weltsplitter-Lauf:
+// Wirtschaft (Sammeln), Unterhalt (Nahrung am Intervall-Rand) und Runenruf wirken hier
+// zusammen. Gleicher Seed + gleiche Befehlsliste + gleiche Tick-Zahl ⇒ bitgleicher End-Hash;
+// eine andere Tick-Zahl ⇒ anderer Hash (der Hash bildet den Fortschritt ab).
+
+let private weltsplitterBefehle t =
+    match t % 10 with
+    | 1 -> [ RufeRune (Voelker.arbeiter Menschen) ]   // Runenruf
+    | 2 -> [ BefehleSammeln (0, Holz) ]               // Wirtschaft: Arbeiter sammelt
+    | 3 -> [ RufeRune (Voelker.arbeiter Menschen) ]
+    | 4 -> [ BefehleSammeln (1, Eisen) ]
+    | 6 -> [ Verbrauch (Aether, 2) ]                  // direkter Lagerverbrauch (Ritual)
+    | _ -> []                                          // Unterhalt schlaegt am Intervall-Rand zu
+
+// Zwei frische Weltsplitter aus demselben Seed, beide explizit via Sim.tick durch dieselbe
+// Befehlsliste getrieben — kein gemeinsamer Zustand, nur gleiche Eingaben.
+let private weltsplitterEndHash seed ticks =
+    let mutable w = Sim.erschaffe seed Menschen
+    for t in 1 .. ticks do
+        w <- Sim.tick (weltsplitterBefehle t) w
+    Sim.hash w
+
+[<Fact; Trait("spot", "spec-siegel-reproduzierbar-test-1")>]
+let ``Siegel reproduzierbar — when beide genau N Ticks via Sim.tick laufen then ist ihr End-Zustands-Hash identisch`` () =
+    let n = 500
+    Assert.Equal(weltsplitterEndHash 42UL n, weltsplitterEndHash 42UL n)
+
+[<Fact; Trait("spot", "spec-siegel-reproduzierbar-test-2")>]
+let ``Siegel reproduzierbar — when beide via Sim.tick laufen then ist ihr End-Zustands-Hash verschieden (der Hash bildet den Fortschritt ab)`` () =
+    // Gleicher Seed, gleiche Befehlsliste — nur die Tick-Zahl unterscheidet sich (500 vs. 501).
+    Assert.NotEqual(weltsplitterEndHash 42UL 500, weltsplitterEndHash 42UL 501)
+
+// ===== Siegel: Kohaerenz-Gate ueber viele Seeds (spec-siegel-gate) =====
+// Das Spielbarkeits-Siegel buendelt beide Garantien: ueber eine feste Menge Seeds, je
+// vollstaendig durchsimuliert, gelten Nichtnegativitaet (Lager nie negativ an jedem Tick)
+// und Reproduzierbarkeit (paarweise gleicher End-Hash) gleichzeitig. Kohaerenz ueber die
+// Domaene statt ueber einen Einzelfall.
+
+let private gateSeeds = [ 1UL; 7UL; 42UL; 99UL; 1000UL; 0xDEADBEEFUL ]
+let private gateTicks = 300
+let private gateBefehle = befehle Menschen
+
+[<Fact; Trait("spot", "spec-siegel-gate-test-1")>]
+let ``Siegel-Gate — when jeder Seed genau N Ticks via Sim.tick laeuft then bleibt fuer jeden Seed an jedem Tick jeder Lagerstand >= 0`` () =
+    for seed in gateSeeds do
+        let mutable w = Sim.erschaffe seed Menschen
+        for t in 1 .. gateTicks do
+            w <- Sim.tick (gateBefehle t) w
+            for kv in w.Lager do
+                Assert.True(kv.Value >= 0,
+                    sprintf "Seed %d, Tick %d: %A wurde negativ (%d)" seed w.Tick kv.Key kv.Value)
+
+[<Fact; Trait("spot", "spec-siegel-gate-test-2")>]
+let ``Siegel-Gate — when beide Durchlaeufe je Seed genau N Ticks laufen then stimmt der End-Zustands-Hash je Seed paarweise ueberein`` () =
+    let lauf seed = Sim.erschaffe seed Menschen |> Sim.lauf gateTicks gateBefehle |> Sim.hash
+    for seed in gateSeeds do
+        Assert.Equal(lauf seed, lauf seed)
+
+// ===== Siegel: treuer Zustands-Hash (spec-siegel-hash-treue) =====
+// Der Zustands-Hash ist das Beweismittel des Siegels: eine reine Funktion des Weltzustands.
+// Strukturell gleiche Welten ergeben denselben Hash, jede relevante Aenderung einen anderen —
+// ein luegender Hash wuerde Reproduzierbarkeit nur vortaeuschen und die Garantie wertlos machen.
+
+let private siegelLager = Map.ofList [ Holz, 50; Stein, 20; Eisen, 20; Nahrung, 50; Aether, 100 ]
+
+let private siegelWeltMit (lager: Map<Ressource, int>) : Welt =
+    let monument : Pos = { X = 0.0f; Y = 0.0f }
+    let arbeiter = Voelker.arbeiter Menschen
+    { Tick = 7
+      RngState = 0xABCDEF123UL
+      Volk = Menschen
+      Monument = monument
+      Lager = lager
+      Einheiten = [ { Typ = arbeiter; Pos = monument; Leben = arbeiter.Leben; Auftrag = Sammeln Holz } ]
+      Avatar = Avatar.erschaffe monument }
+
+[<Fact; Trait("spot", "spec-siegel-hash-treue-test-1")>]
+let ``Siegel: treuer Zustands-Hash — when beide gehasht werden then ist ihr Zustands-Hash identisch`` () =
+    // Zwei unabhaengig gebaute, strukturell gleiche Welten: gleiches Lager, gleiche Einheiten, gleiche Tick-Zahl.
+    let a = siegelWeltMit siegelLager
+    let b = siegelWeltMit (Map.ofList [ Holz, 50; Stein, 20; Eisen, 20; Nahrung, 50; Aether, 100 ])
+    Assert.Equal(Sim.hash a, Sim.hash b)
+
+[<Fact; Trait("spot", "spec-siegel-hash-treue-test-2")>]
+let ``Siegel: treuer Zustands-Hash — when beide gehasht werden then ist ihr Zustands-Hash verschieden`` () =
+    // Unterschied in genau einem einzigen Lagerstand (Holz 50 -> 51), sonst Welt fuer Welt identisch.
+    let a = siegelWeltMit siegelLager
+    let b = siegelWeltMit (Map.add Holz 51 siegelLager)
+    Assert.NotEqual(Sim.hash a, Sim.hash b)
+
+// ===== Siegel: Lager nie negativ ueber den Lauf (spec-siegel-lager-nichtnegativ) =====
+// Nichtnegativitaet ist kein Endzustands-Check, sondern eine ueber jeden Tick und jede
+// Ressource gepruefte Eigenschaft. Eine Ueberausgabe — auch kumulativ aus mehreren
+// Befehlen eines Ticks — wird abgelehnt, statt das Lager ins Minus zu treiben.
+
+let private alleRessourcen = [ Holz; Stein; Eisen; Nahrung; Aether ]
+
+// Gemischter Befehlsstrom aus Sammeln, RufeRune und (aggressivem) Verbrauch.
+let private lagerBefehle t =
+    match t % 5 with
+    | 1 -> [ RufeRune (Voelker.arbeiter Menschen) ]
+    | 2 -> [ BefehleSammeln (0, Holz) ]
+    | 3 -> [ Verbrauch (Eisen, 3); Verbrauch (Aether, 7) ]
+    | 4 -> [ Verbrauch (Holz, 9); Verbrauch (Stein, 4); Verbrauch (Nahrung, 2) ]
+    | _ -> []
+
+[<Fact; Trait("spot", "spec-siegel-lager-nichtnegativ-test-1")>]
+let ``Siegel Lager — when der Lauf vollstaendig via Sim.tick verarbeitet wird then ist an jedem Tick und fuer jede Ressource der Lagerstand >= 0`` () =
+    let mutable w = Sim.erschaffe 42UL Menschen
+    for t in 1 .. 400 do
+        w <- Sim.tick (lagerBefehle t) w
+        for r in alleRessourcen do
+            let bestand = Map.find r w.Lager
+            Assert.True(bestand >= 0,
+                sprintf "Tick %d: %A wurde negativ (%d)" w.Tick r bestand)
+
+[<Fact; Trait("spot", "spec-siegel-lager-nichtnegativ-test-2")>]
+let ``Siegel Lager — when ein Tick zusammen mehr ausgeben will als im Lager then wird die Ueberausgabe abgelehnt und kein Lagerstand wird negativ`` () =
+    // Holz-Bestand 5; zwei Verbrauchsbefehle wollen zusammen 3 + 4 = 7 > 5 ausgeben.
+    let welt = { Sim.erschaffe 7UL Menschen with Lager = Map.ofList [ Holz, 5; Stein, 0; Eisen, 0; Nahrung, 1; Aether, 0 ] }
+    let danach = Sim.tick [ Verbrauch (Holz, 3); Verbrauch (Holz, 4) ] welt
+    // Der erste Befehl (3) geht durch, der zweite (4 > Rest 2) wird abgelehnt — Bestand bleibt 2.
+    Assert.Equal(2, Map.find Holz danach.Lager)
+    for r in alleRessourcen do
+        Assert.True(Map.find r danach.Lager >= 0,
+            sprintf "%A wurde negativ (%d)" r (Map.find r danach.Lager))
+
 // ===== Sechs Voelker =====
 
 [<Fact; Trait("spot", "spec-voelker-test-1")>]

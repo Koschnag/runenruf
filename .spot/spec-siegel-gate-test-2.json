@@ -1,0 +1,14 @@
+{
+  "Id": "spec-siegel-gate-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-siegel-gate",
+        "Name": "Siegel: Koh\u00E4renz-Gate \u00FCber viele Seeds \u2014 when beide Durchl\u00E4ufe je Seed genau N Ticks laufen then stimmt der End-Zustands-Hash je Seed paarweise \u00FCberein",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

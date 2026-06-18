@@ -1,0 +1,25 @@
+{
+  "Id": "spec-siegel-hash-treue",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Siegel: treuer Zustands-Hash",
+        "Intent": "Der Zustands-Hash ist das Beweismittel des Siegels. Er muss eine reine Funktion des Weltzustands sein: strukturell gleiche Zust\u00E4nde ergeben denselben Hash, jede relevante \u00C4nderung einen anderen. Ein l\u00FCgender Hash w\u00FCrde Reproduzierbarkeit nur vort\u00E4uschen und die Garantie wertlos machen.",
+        "Criteria": [
+          {
+            "Given": "zwei Weltzust\u00E4nde mit gleichen Lagerst\u00E4nden, gleichen Einheiten und gleicher Tick-Zahl",
+            "When": "beide gehasht werden",
+            "Then": "ist ihr Zustands-Hash identisch"
+          },
+          {
+            "Given": "zwei Weltzust\u00E4nde, die sich nur in einem einzigen Lagerstand unterscheiden",
+            "When": "beide gehasht werden",
+            "Then": "ist ihr Zustands-Hash verschieden"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

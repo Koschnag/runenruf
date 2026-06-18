@@ -1,0 +1,14 @@
+{
+  "Id": "spec-siegel-lager-nichtnegativ-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-siegel-lager-nichtnegativ",
+        "Name": "Siegel: Lager nie negativ \u00FCber den Lauf \u2014 when dieser Tick via Sim.tick verarbeitet wird then wird die \u00DCberausgabe abgelehnt und kein Lagerstand wird negativ",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

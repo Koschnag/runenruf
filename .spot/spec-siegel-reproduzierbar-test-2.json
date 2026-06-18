@@ -1,0 +1,14 @@
+{
+  "Id": "spec-siegel-reproduzierbar-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-siegel-reproduzierbar",
+        "Name": "Siegel: reproduzierbarer Weltsplitter-Lauf \u2014 when beide via Sim.tick laufen then ist ihr End-Zustands-Hash verschieden (der Hash bildet den Fortschritt ab)",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -1,0 +1,14 @@
+{
+  "Id": "spec-siegel-lager-nichtnegativ-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-siegel-lager-nichtnegativ",
+        "Name": "Siegel: Lager nie negativ \u00FCber den Lauf \u2014 when der Lauf vollst\u00E4ndig via Sim.tick verarbeitet wird then ist an jedem Tick und f\u00FCr jede Ressource (Holz, Stein, Eisen, Nahrung, \u00C4ther) der Lagerstand \u003E= 0",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

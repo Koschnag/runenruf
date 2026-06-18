@@ -1,0 +1,25 @@
+{
+  "Id": "spec-siegel-gate",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Siegel: Koh\u00E4renz-Gate \u00FCber viele Seeds",
+        "Intent": "Das eigentliche Spielbarkeits-Siegel b\u00FCndelt beide Garantien zu einem Gate: \u00FCber eine feste Menge von Seeds, je vollst\u00E4ndig durchsimuliert, gelten Nichtnegativit\u00E4t und Reproduzierbarkeit gleichzeitig. Genau dieses Gate ist die Zusage, dass ein neues Feature das Spiel nicht bricht \u2014 eine Koh\u00E4renz-Eigenschaft \u00FCber die ganze Dom\u00E4ne statt \u00FCber einen Einzelfall.",
+        "Criteria": [
+          {
+            "Given": "eine feste Menge von Seeds, jeweils mit derselben Befehlsliste",
+            "When": "jeder Seed genau N Ticks via Sim.tick l\u00E4uft",
+            "Then": "bleibt f\u00FCr jeden Seed an jedem Tick jeder Lagerstand \u003E= 0"
+          },
+          {
+            "Given": "dieselbe feste Menge von Seeds, je zweimal durchsimuliert",
+            "When": "beide Durchl\u00E4ufe je Seed genau N Ticks laufen",
+            "Then": "stimmt der End-Zustands-Hash je Seed paarweise \u00FCberein"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -1,0 +1,14 @@
+{
+  "Id": "spec-siegel-hash-treue-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-siegel-hash-treue",
+        "Name": "Siegel: treuer Zustands-Hash \u2014 when beide gehasht werden then ist ihr Zustands-Hash identisch",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}
