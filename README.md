@@ -14,3 +14,17 @@ Spec-driven entwickelt mit [CDD](https://github.com/Koschnag/cong-driven-develop
 das Modell liegt in `.spot/`, Konvergenz wird gemessen, nicht behauptet.
 
 Lizenz: MPL-2.0. Hommage, kein Klon: eigene Namen, Lore und Assets.
+
+## Reproduzieren / Konvergenz prüfen
+
+```
+git clone https://github.com/Koschnag/runenruf
+cd runenruf
+dotnet test tests/Runenruf.Tests    # 46/46 grün
+```
+
+Das Orakel (`SetzeSpecAligned`) setzt einen Spec-Knoten nur auf `Aligned`, wenn ein echter
+`dotnet test`-Lauf grün ist — Exit-0 reicht nicht. Teil der Suite: Determinismus (gleicher Seed ⇒
+bitgleicher Zustands-Hash) und Lager-Nichtnegativität als FsCheck-Property
+`spec-siegel-lager-nichtnegativ` über *jeden* Seed und *jede* Befehlsfolge. Review = Konvergenz
+gegen die Spec, nicht der gelesene Diff.
