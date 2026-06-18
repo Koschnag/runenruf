@@ -58,6 +58,36 @@ let ``Diplomatie — when die Beziehung zweier Voelker verschiedener Buende abge
     Assert.Equal(Verfeindet, Voelker.beziehung Menschen Orks)
     Assert.False(Voelker.sindVerbuendet Menschen Orks)
 
+// ===== Kampfkraft =====
+
+[<Fact; Trait("spot", "spec-kampfkraft-test-1")>]
+let ``Kampfkraft — when Voelker.kampfkraft fuer eine Einheit mit Leben L und Schaden S aufgerufen wird then ist das Ergebnis L plus S mal 5`` () =
+    let einheit =
+        { Volk = Menschen; Name = "Pruefling"; Rolle = Nahkampf
+          KostenHolz = 0; KostenEisen = 0; KostenAether = 0
+          Leben = 90; Schaden = 12; Tempo = 1.0f }
+    Assert.Equal(90 + 12 * 5, Voelker.kampfkraft einheit)
+    // gilt für jede Einheit: kampfkraft = Leben + Schaden * 5
+    for volk in Voelker.alle do
+        for t in Voelker.einheiten volk do
+            Assert.Equal(t.Leben + t.Schaden * 5, Voelker.kampfkraft t)
+
+[<Fact; Trait("spot", "spec-kampfkraft-test-2")>]
+let ``Kampfkraft — when die Kampfkraft zweier Einheiten verglichen wird then ist a genau dann staerker als b wenn kampfkraft a groesser ist`` () =
+    let mache leben schaden =
+        { Volk = Menschen; Name = "x"; Rolle = Nahkampf
+          KostenHolz = 0; KostenEisen = 0; KostenAether = 0
+          Leben = leben; Schaden = schaden; Tempo = 1.0f }
+    let stark = mache 90 12   // Kampfkraft 150
+    let schwach = mache 60 14 // Kampfkraft 130
+    Assert.True(Voelker.istStaerker stark schwach)
+    Assert.False(Voelker.istStaerker schwach stark)
+    // Äquivalenz zum Skalar-Vergleich auf allen realen Einheiten
+    let alleEinheiten = Voelker.alle |> List.collect Voelker.einheiten
+    for a in alleEinheiten do
+        for b in alleEinheiten do
+            Assert.Equal(Voelker.kampfkraft a > Voelker.kampfkraft b, Voelker.istStaerker a b)
+
 // ===== Wirtschaft =====
 
 [<Fact; Trait("spot", "spec-wirtschaft-test-1")>]

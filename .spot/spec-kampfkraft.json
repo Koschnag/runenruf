@@ -1,0 +1,17 @@
+{
+  "Id": "spec-kampfkraft",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Kampfkraft einer Einheit",
+        "Intent": "Jede Einheit hat einen vergleichbaren Kampfkraft-Skalar aus Leben und Schaden, damit Einheiten objektiv verglichen werden.",
+        "Criteria": [
+          { "Given": "eine EinheitTyp mit Leben L und Schaden S", "When": "Voelker.kampfkraft aufgerufen wird", "Then": "ist das Ergebnis L + S * 5" },
+          { "Given": "zwei Einheiten a und b", "When": "ihre Kampfkraft verglichen wird", "Then": "ist a genau dann staerker als b wenn kampfkraft a groesser als kampfkraft b ist" }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

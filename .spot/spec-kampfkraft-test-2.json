@@ -1,0 +1,14 @@
+{
+  "Id": "spec-kampfkraft-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-kampfkraft",
+        "Name": "Kampfkraft einer Einheit \u2014 when ihre Kampfkraft verglichen wird then ist a genau dann staerker als b wenn kampfkraft a groesser als kampfkraft b ist",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -51,6 +51,13 @@ module Voelker =
 
     let sindVerbuendet a b = beziehung a b = Verbuendet
 
+    /// Kampfkraft (spec-kampfkraft): vergleichbarer Skalar aus Leben und Schaden.
+    /// Schaden zählt fünffach, da er pro Tick wirkt, Leben nur einmal verbraucht wird.
+    let kampfkraft (typ: EinheitTyp) = typ.Leben + typ.Schaden * 5
+
+    /// a ist genau dann stärker als b, wenn ihre Kampfkraft größer ist (spec-kampfkraft).
+    let istStaerker a b = kampfkraft a > kampfkraft b
+
     let private e volk name rolle holz eisen aether leben schaden tempo =
         { Volk = volk; Name = name; Rolle = rolle
           KostenHolz = holz; KostenEisen = eisen; KostenAether = aether

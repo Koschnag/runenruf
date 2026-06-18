@@ -1,0 +1,14 @@
+{
+  "Id": "spec-kampfkraft-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-kampfkraft",
+        "Name": "Kampfkraft einer Einheit \u2014 when Voelker.kampfkraft aufgerufen wird then ist das Ergebnis L \u002B S * 5",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}
