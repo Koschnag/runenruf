@@ -541,3 +541,45 @@ let ``Browser — when beide denselben Seed 100 Ticks laufen then ist der Zustan
     let b = Spiel.kopfloserLauf 7UL 100
     Assert.Equal(a, b)
     Assert.NotEqual(a, Spiel.kopfloserLauf 8UL 100)
+
+// ===== Siegel: Property — Lager-Nichtnegativitaet ueber ALLE Befehlsfolgen (spec-siegel-lager-nichtnegativ) =====
+// Die beiden Beispieltests oben pruefen Nichtnegativitaet fuer EINE feste Befehlsfolge (Seed 42,
+// 400 Ticks) und EINEN handverlesenen Ueberausgabe-Fall. Beides ist existenzquantifiziert: "fuer
+// DIESE Eingaben". Diese Property hebt denselben Invarianten auf "fuer JEDEN Seed und JEDE
+// Befehlsfolge". FsCheck sucht aktiv ein Gegenbeispiel und schrumpft es auf den minimalen Fall —
+// ein Off-by-one in einem Pfad, den die feste Folge nie trifft (etwa der Nahrungs-Unterhalt),
+// faellt hier auf, nicht im Beispiel. Das ist der Unterschied zwischen Beispiel abhaken und
+// Allaussage widerlegen.
+
+open FsCheck
+
+let private ressourceGen = Gen.elements alleRessourcen
+
+let private befehlGen : Gen<Befehl> =
+    Gen.oneof
+        [ Gen.constant (RufeRune (Voelker.arbeiter Menschen))
+          gen { let! i = Gen.choose (0, 4)
+                let! r = ressourceGen
+                return BefehleSammeln (i, r) }
+          gen { let! r = ressourceGen
+                let! menge = Gen.choose (1, 80)   // bis ueber den Startbestand — stresst die Guards
+                return Verbrauch (r, menge) } ]
+
+let private szenarioGen : Gen<uint64 * Befehl list list> =
+    gen { let! seed  = Arb.generate<uint64>
+          let! ticks = Gen.choose (1, 80)
+          let! plan  = Gen.listOfLength ticks (Gen.listOf befehlGen)
+          return seed, plan }
+
+[<Fact; Trait("spot", "spec-siegel-lager-nichtnegativ-property")>]
+let ``Siegel Lager (Property) — fuer jeden Seed und jede Befehlsfolge bleibt an jedem Tick jeder Lagerstand >= 0`` () =
+    let invariante (seed: uint64, plan: Befehl list list) =
+        let mutable w = Sim.erschaffe seed Menschen
+        let mutable ok = true
+        for befehle in plan do
+            w <- Sim.tick befehle w
+            for kv in w.Lager do
+                if kv.Value < 0 then ok <- false
+        ok
+    Prop.forAll (Arb.fromGen szenarioGen) invariante
+    |> Check.QuickThrowOnFailure
