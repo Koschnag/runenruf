@@ -123,6 +123,113 @@ let ``Runen rufen — when die Wiederbelebungszeit ablaeuft then ersteht er am l
     Assert.True(avatar.WiederbelebungIn.IsNone)
     Assert.Equal(monument, avatar.Pos)
 
+// ===== Runenruf-Sperre bei leerem Nahrungslager (spec-rufe-rune-nahrungssperre) =====
+// Nahrung ist keine Stueckkosten, sondern ein Tor: ist das Nahrungslager leer, laesst
+// sich keine Rune rufen — sonst entsteht die Einheit normal und nur Holz/Eisen/Aether sinken.
+
+let private genugFuer (typ: EinheitTyp) nahrung =
+    Map.ofList [ Holz, typ.KostenHolz; Stein, 0; Eisen, typ.KostenEisen; Nahrung, nahrung; Aether, typ.KostenAether ]
+
+[<Fact; Trait("spot", "spec-rufe-rune-nahrungssperre-test-1")>]
+let ``Runenruf-Sperre — when der Befehl RufeRune typ via Sim.tick verarbeitet wird then entsteht keine Einheit und das Lager fuer Holz, Eisen und Aether bleibt unveraendert`` () =
+    let typ = Voelker.arbeiter Menschen
+    let welt = { Sim.erschaffe 7UL Menschen with Lager = genugFuer typ 0 }
+    let danach = Sim.tick [ RufeRune typ ] welt
+    Assert.Empty(danach.Einheiten)
+    Assert.Equal(Map.find Holz welt.Lager, Map.find Holz danach.Lager)
+    Assert.Equal(Map.find Eisen welt.Lager, Map.find Eisen danach.Lager)
+    Assert.Equal(Map.find Aether welt.Lager, Map.find Aether danach.Lager)
+
+[<Fact; Trait("spot", "spec-rufe-rune-nahrungssperre-test-2")>]
+let ``Runenruf-Sperre — when der Befehl RufeRune typ via Sim.tick verarbeitet wird then entsteht die Einheit am Monument und die Kosten werden abgezogen`` () =
+    let typ = Voelker.arbeiter Menschen
+    let welt = { Sim.erschaffe 7UL Menschen with Lager = genugFuer typ 5 }
+    let danach = Sim.tick [ RufeRune typ ] welt
+    let einheit = Assert.Single(danach.Einheiten)
+    // Wie spec-runenruf-test-1: Pos.Y verankert am Monument (X traegt deterministischen Tick-Jitter).
+    Assert.Equal(welt.Monument.Y, einheit.Pos.Y)
+    Assert.Equal(Map.find Holz welt.Lager - typ.KostenHolz, Map.find Holz danach.Lager)
+    Assert.Equal(Map.find Eisen welt.Lager - typ.KostenEisen, Map.find Eisen danach.Lager)
+    Assert.Equal(Map.find Aether welt.Lager - typ.KostenAether, Map.find Aether danach.Lager)
+
+[<Fact; Trait("spot", "spec-rufe-rune-nahrungssperre-test-3")>]
+let ``Runenruf-Sperre — when der Befehl RufeRune typ via Sim.tick verarbeitet wird then entsteht die Einheit wieder`` () =
+    let typ = Voelker.arbeiter Menschen
+    let leer = { Sim.erschaffe 7UL Menschen with Lager = genugFuer typ 0 }
+    // Bei leerem Nahrungslager bleibt der Ruf gesperrt.
+    let gesperrt = Sim.tick [ RufeRune typ ] leer
+    Assert.Empty(gesperrt.Einheiten)
+    // Nahrung von 0 auf > 0 auffuellen — danach entsteht die Einheit wieder.
+    let aufgefuellt = { gesperrt with Lager = Map.add Nahrung 3 gesperrt.Lager }
+    let danach = Sim.tick [ RufeRune typ ] aufgefuellt
+    Assert.Single(danach.Einheiten) |> ignore
+
+// ===== Unterhalt bei knapper Nahrung (spec-unterhalt-knappheit) =====
+// Hunger ist ein hartes Limit, kein Schuldenkonto: ist die Armee groesser als die
+// Vorratskammer, faellt das Nahrungslager auf genau 0 statt ins Minus — der Weltzustand
+// bleibt wohlgeformt und die Determinismus-Hashes bleiben sauber.
+
+let private mitNahrung anzahl nahrung =
+    let arbeiter = Voelker.arbeiter Menschen
+    let basis = Sim.erschaffe 7UL Menschen
+    { basis with
+        Lager = Map.add Nahrung nahrung basis.Lager
+        Einheiten = [ for _ in 1 .. anzahl -> { Typ = arbeiter; Pos = { X = 0.0f; Y = 0.0f }; Leben = arbeiter.Leben; Auftrag = Leerlauf } ] }
+
+[<Fact; Trait("spot", "spec-unterhalt-knappheit-test-1")>]
+let ``Unterhalt bei knapper Nahrung — when genau sammelIntervall Ticks via Sim.tick verarbeitet werden then ist die Nahrung im Lager genau 0 und nie negativ`` () =
+    // N lebende Einheiten, Lager-Nahrung F mit 0 < F < N.
+    let welt = mitNahrung 8 3
+    let mutable w = welt
+    for _ in 1 .. Sim.sammelIntervall do
+        w <- Sim.tick [] w
+        Assert.True(Map.find Nahrung w.Lager >= 0, sprintf "Nahrung wurde negativ: %d" (Map.find Nahrung w.Lager))
+    Assert.Equal(0, Map.find Nahrung w.Lager)
+
+[<Fact; Trait("spot", "spec-unterhalt-knappheit-test-2")>]
+let ``Unterhalt bei knapper Nahrung — when genau sammelIntervall Ticks via Sim.tick verarbeitet werden then bleibt die Nahrung im Lager 0`` () =
+    // Lager-Nahrung 0 und mindestens eine lebende Einheit.
+    let welt = mitNahrung 1 0
+    let mutable w = welt
+    for _ in 1 .. Sim.sammelIntervall do
+        w <- Sim.tick [] w
+        Assert.True(Map.find Nahrung w.Lager >= 0, sprintf "Nahrung wurde negativ: %d" (Map.find Nahrung w.Lager))
+    Assert.Equal(0, Map.find Nahrung w.Lager)
+
+// ===== Nahrungs-Unterhalt stehender Einheiten (spec-unterhalt) =====
+// Eine stehende Armee isst: pro Sammelintervall verzehrt jede lebende Einheit eine Nahrung
+// aus dem Lager. Der Unterhalt faellt nur am Intervall-Rand an — der klassische RTS-Kreislauf.
+
+[<Fact; Trait("spot", "spec-unterhalt-test-1")>]
+let ``Unterhalt — when genau sammelIntervall Ticks ohne Befehle via Sim.tick verarbeitet werden then ist die Nahrung im Lager um genau N gesunken`` () =
+    // N lebende Einheiten im Leerlauf, Lager-Nahrung F mit F >= N.
+    let n = 3
+    let welt = mitNahrung n 50
+    let vorher = Map.find Nahrung welt.Lager
+    let mutable w = welt
+    for _ in 1 .. Sim.sammelIntervall do
+        w <- Sim.tick [] w
+    Assert.Equal(vorher - n, Map.find Nahrung w.Lager)
+
+[<Fact; Trait("spot", "spec-unterhalt-test-2")>]
+let ``Unterhalt — when ein einzelner Sim.tick ohne sammelIntervall-Rand verarbeitet wird then ist die Nahrung im Lager unveraendert`` () =
+    // Aus erschaffe ist Tick = 0; der naechste Tick wird 1 und ueberschreitet keinen Intervall-Rand.
+    let welt = mitNahrung 5 50
+    Assert.NotEqual(0, (welt.Tick + 1) % Sim.sammelIntervall)
+    let danach = Sim.tick [] welt
+    Assert.Equal(Map.find Nahrung welt.Lager, Map.find Nahrung danach.Lager)
+
+[<Fact; Trait("spot", "spec-unterhalt-test-3")>]
+let ``Unterhalt — when genau sammelIntervall Ticks ohne Einheiten via Sim.tick verarbeitet werden then ist die Nahrung im Lager unveraendert`` () =
+    // Welt ganz ohne Einheiten: am Intervall-Rand wird nichts verzehrt.
+    let welt = Sim.erschaffe 7UL Menschen
+    Assert.Empty(welt.Einheiten)
+    let vorher = Map.find Nahrung welt.Lager
+    let mutable w = welt
+    for _ in 1 .. Sim.sammelIntervall do
+        w <- Sim.tick [] w
+    Assert.Equal(vorher, Map.find Nahrung w.Lager)
+
 // ===== Avatar-RPG =====
 
 [<Fact; Trait("spot", "spec-avatar-rpg-test-1")>]

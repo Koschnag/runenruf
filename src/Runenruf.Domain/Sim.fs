@@ -67,8 +67,11 @@ module Sim =
         | RufeRune typ ->
             // spec-runenruf: Einheit entsteht am Monument, Kosten werden abgezogen —
             // spec-wirtschaft: ohne volle Deckung wird abgelehnt und nichts abgezogen.
+            // spec-rufe-rune-nahrungssperre: leerer Nahrungsvorrat sperrt den Runenruf —
+            // ohne Nahrung im Lager entsteht keine Einheit (Nahrung selbst ist keine Kosten).
             let k = kosten typ
-            if bezahlbar welt.Lager k then
+            let nahrungVorhanden = (Map.tryFind Nahrung welt.Lager |> Option.defaultValue 0) > 0
+            if nahrungVorhanden && bezahlbar welt.Lager k then
                 let e = { Typ = typ; Pos = welt.Monument; Leben = typ.Leben; Auftrag = Leerlauf }
                 { welt with Lager = zahle welt.Lager k; Einheiten = welt.Einheiten @ [ e ] }
             else
@@ -85,11 +88,19 @@ module Sim =
         let neuerTick = welt.Tick + 1
         let lager =
             if neuerTick % sammelIntervall = 0 then
-                welt.Einheiten
-                |> List.fold (fun l e ->
-                    match e.Auftrag with
-                    | Sammeln r when e.Typ.Rolle = Arbeiter -> Map.add r (Map.find r l + 1) l
-                    | _ -> l) welt.Lager
+                // spec-wirtschaft: sammelnde Arbeiter liefern je Intervall eine Ressource.
+                let gesammelt =
+                    welt.Einheiten
+                    |> List.fold (fun l e ->
+                        match e.Auftrag with
+                        | Sammeln r when e.Typ.Rolle = Arbeiter -> Map.add r (Map.find r l + 1) l
+                        | _ -> l) welt.Lager
+                // spec-unterhalt: jede lebende Einheit isst je Intervall eine Nahrung —
+                // spec-unterhalt-knappheit: Hunger ist ein hartes Limit, kein Schuldenkonto;
+                // das Nahrungslager faellt auf genau 0 statt ins Minus.
+                let lebende = welt.Einheiten |> List.filter (fun e -> e.Leben > 0) |> List.length
+                let nahrung = max 0 (Map.find Nahrung gesammelt - lebende)
+                Map.add Nahrung nahrung gesammelt
             else
                 welt.Lager
         let struct (z, rng) = Rng.next welt.RngState

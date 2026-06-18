@@ -1,0 +1,14 @@
+{
+  "Id": "spec-unterhalt-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-unterhalt",
+        "Name": "Nahrungs-Unterhalt stehender Einheiten \u2014 when genau sammelIntervall Ticks ohne Befehle via Sim.tick verarbeitet werden then ist die Nahrung im Lager um genau N gesunken",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

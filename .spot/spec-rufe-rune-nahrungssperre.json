@@ -1,0 +1,30 @@
+{
+  "Id": "spec-rufe-rune-nahrungssperre",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Runenruf-Sperre bei leerem Nahrungslager",
+        "Intent": "Ein erschoepfter Nahrungsvorrat stoppt den Nachschub: auf leeren Magen laesst sich keine neue Rune rufen — Hunger bekommt Zaehne und Erholung verlangt erst den Wiederaufbau der Nahrungs-Wirtschaft. So wird Massenbeschwoeren ohne Versorgung selbstkorrigierend bestraft.",
+        "Criteria": [
+          {
+            "Given": "eine Welt mit Lager-Nahrung 0, aber sonst genug Holz, Eisen und Aether fuer einen EinheitTyp",
+            "When": "der Befehl RufeRune typ via Sim.tick verarbeitet wird",
+            "Then": "entsteht keine Einheit und das Lager fuer Holz, Eisen und Aether bleibt unveraendert"
+          },
+          {
+            "Given": "eine Welt mit Lager-Nahrung > 0 und genug Holz, Eisen und Aether fuer einen EinheitTyp",
+            "When": "der Befehl RufeRune typ via Sim.tick verarbeitet wird",
+            "Then": "entsteht die Einheit am Monument und die Kosten werden abgezogen"
+          },
+          {
+            "Given": "eine Welt, deren Lager-Nahrung von 0 auf einen Wert > 0 aufgefuellt wurde",
+            "When": "der Befehl RufeRune typ via Sim.tick verarbeitet wird",
+            "Then": "entsteht die Einheit wieder"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

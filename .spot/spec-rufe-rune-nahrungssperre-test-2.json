@@ -1,0 +1,14 @@
+{
+  "Id": "spec-rufe-rune-nahrungssperre-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-rufe-rune-nahrungssperre",
+        "Name": "Runenruf-Sperre bei leerem Nahrungslager \u2014 when der Befehl RufeRune typ via Sim.tick verarbeitet wird then entsteht die Einheit am Monument und die Kosten werden abgezogen",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

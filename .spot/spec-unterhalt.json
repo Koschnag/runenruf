@@ -1,0 +1,30 @@
+{
+  "Id": "spec-unterhalt",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Nahrungs-Unterhalt stehender Einheiten",
+        "Intent": "Eine stehende Armee ist nicht umsonst: pro Sammelintervall isst jede lebende Einheit eine Nahrung aus dem Lager, also muss der Spieler die Wirtschaft mitwachsen lassen — eine Bremse gegen gedankenloses Massenbeschwoeren und der klassische RTS-Unterhalts-Kreislauf.",
+        "Criteria": [
+          {
+            "Given": "eine Welt mit N lebenden Einheiten (Leben > 0) im Leerlauf und Lager-Nahrung F mit F >= N",
+            "When": "genau sammelIntervall Ticks ohne Befehle via Sim.tick verarbeitet werden",
+            "Then": "ist die Nahrung im Lager um genau N gesunken"
+          },
+          {
+            "Given": "eine Welt mit lebenden Einheiten, deren naechster Tick keinen sammelIntervall-Rand ueberschreitet",
+            "When": "dieser einzelne Sim.tick verarbeitet wird",
+            "Then": "ist die Nahrung im Lager unveraendert (Unterhalt faellt nur am Intervall-Rand an)"
+          },
+          {
+            "Given": "eine Welt ganz ohne Einheiten",
+            "When": "genau sammelIntervall Ticks via Sim.tick verarbeitet werden",
+            "Then": "ist die Nahrung im Lager unveraendert"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

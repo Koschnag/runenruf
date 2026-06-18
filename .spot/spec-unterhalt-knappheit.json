@@ -1,0 +1,25 @@
+{
+  "Id": "spec-unterhalt-knappheit",
+  "Payload": {
+    "Case": "SpecNode",
+    "Fields": {
+      "Item": {
+        "Title": "Unterhalt bei knapper Nahrung",
+        "Intent": "Hunger ist ein hartes Limit, kein Schuldenkonto: ist die Armee groesser als die Vorratskammer, leert sich das Lager auf genau 0 statt ins Minus — der Weltzustand bleibt wohlgeformt und Determinismus-Hashes bleiben sauber.",
+        "Criteria": [
+          {
+            "Given": "eine Welt mit N lebenden Einheiten und Lager-Nahrung F mit 0 < F < N",
+            "When": "genau sammelIntervall Ticks via Sim.tick verarbeitet werden",
+            "Then": "ist die Nahrung im Lager genau 0 und nie negativ"
+          },
+          {
+            "Given": "eine Welt mit Lager-Nahrung 0 und mindestens einer lebenden Einheit",
+            "When": "genau sammelIntervall Ticks via Sim.tick verarbeitet werden",
+            "Then": "bleibt die Nahrung im Lager 0"
+          }
+        ]
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

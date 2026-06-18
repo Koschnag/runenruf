@@ -1,0 +1,14 @@
+{
+  "Id": "spec-rufe-rune-nahrungssperre-test-1",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-rufe-rune-nahrungssperre",
+        "Name": "Runenruf-Sperre bei leerem Nahrungslager \u2014 when der Befehl RufeRune typ via Sim.tick verarbeitet wird then entsteht keine Einheit und das Lager fuer Holz, Eisen und Aether bleibt unveraendert",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}

@@ -1,0 +1,14 @@
+{
+  "Id": "spec-unterhalt-knappheit-test-2",
+  "Payload": {
+    "Case": "TestNode",
+    "Fields": {
+      "Item": {
+        "SpecRef": "spec-unterhalt-knappheit",
+        "Name": "Unterhalt bei knapper Nahrung \u2014 when genau sammelIntervall Ticks via Sim.tick verarbeitet werden then bleibt die Nahrung im Lager 0",
+        "Derived": true
+      }
+    }
+  },
+  "Convergence": "Aligned"
+}
