@@ -1,4 +1,3 @@
-using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using System.Numerics;
@@ -9,7 +8,7 @@ namespace Runenruf.Engine;
 /// OpenGL-3.3-Backend auf Silk.NET (adr-001): ein Fenster, warmes Licht,
 /// RTS-Kamera ueber dem Weltsplitter. Laeuft auf macOS (GL 4.1), Windows, Linux.
 /// </summary>
-public sealed class GlBackend(int breite = 1920, int hoehe = 1080) : IRenderBackend
+public sealed class GlBackend(int breite = 1920, int hoehe = 1080, GlProfil profil = GlProfil.Desktop) : IRenderBackend
 {
     private IWindow? _fenster;
     private GL? _gl;
@@ -53,13 +52,7 @@ public sealed class GlBackend(int breite = 1920, int hoehe = 1080) : IRenderBack
 
     public void Initialisiere()
     {
-        var optionen = WindowOptions.Default with
-        {
-            Size = new Vector2D<int>(breite, hoehe),
-            Title = "Runenruf",
-            API = new GraphicsAPI(ContextAPI.OpenGL, ContextProfile.Core, ContextFlags.ForwardCompatible, new APIVersion(3, 3)),
-        };
-        _fenster = Window.Create(optionen);
+        _fenster = Window.Create(GlKontext.Optionen(profil, breite, hoehe));
         _fenster.Load += BeiLaden;
         _fenster.Render += BeiRender;
         _fenster.Closing += () => _laeuft = false;

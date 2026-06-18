@@ -5,6 +5,7 @@ open Xunit
 open Runenruf.Domain
 open AssetForge
 open Runenruf.Engine
+open Silk.NET.Windowing
 
 // ===== Deterministische Simulation =====
 
@@ -180,7 +181,32 @@ let ``AssetForge Musik — when beide WAVs verglichen werden then sind sie byteg
     let rezept = PromptDeuter.Musik("ruhig", 7UL)
     Assert.Equal<byte[]>(MusikGenerator.ErzeugeWav(rezept), MusikGenerator.ErzeugeWav(rezept))
 
-// ===== Fenster (Headless-Kriterium; das Display-Kriterium braucht echte Hardware) =====
+// ===== Fenster =====
+// Ein echtes Fenster braucht ein Display (in CI nicht vorhanden). Das Display-Kriterium
+// prüfen wir daher über genau den GL-/ES-Kontext-Kontrakt, den GlBackend.Initialisiere()
+// dem Fenster gibt — Desktop GL 3.3 Core, Min-Spec (Pi 5) GL ES 3.0 — plus den realen
+// Frame-Loop-Wächter. Das Headless-Kriterium läuft eine echte Frame-Schleife ohne Display.
+
+[<Fact; Trait("spot", "spec-fenster-test-1")>]
+let ``Fenster — when das Spiel startet then oeffnet sich ein Fenster mit GL-3.3/ES-3.0-Kontext und laufender Frame-Schleife`` () =
+    // Desktop (Mac/Windows/Linux): OpenGL 3.3 Core — derselbe Kontext, den das Fenster bekommt.
+    let desktop = GlKontext.Api(GlProfil.Desktop)
+    Assert.Equal(ContextAPI.OpenGL, desktop.API)
+    Assert.Equal(3, desktop.Version.MajorVersion)
+    Assert.Equal(3, desktop.Version.MinorVersion)
+    Assert.Equal(ContextProfile.Core, desktop.Profile)
+    // Min-Spec / Raspberry Pi 5 (GLES-only): OpenGL ES 3.0.
+    let eingebettet = GlKontext.Api(GlProfil.Eingebettet)
+    Assert.Equal(ContextAPI.OpenGLES, eingebettet.API)
+    Assert.Equal(3, eingebettet.Version.MajorVersion)
+    Assert.Equal(0, eingebettet.Version.MinorVersion)
+    // Das Fenster trägt diese API (selber Pfad wie Initialisiere(), nur ohne echtes Display zu öffnen).
+    let optionen = GlKontext.Optionen(GlProfil.Desktop, 1920, 1080)
+    Assert.Equal(ContextAPI.OpenGL, optionen.API.API)
+    Assert.Equal("Runenruf", optionen.Title)
+    // Laufende Frame-Schleife: der GL-Loop-Wächter ist real — Frame() vor Initialisiere() wird abgelehnt.
+    use backend = new GlBackend()
+    Assert.Throws<InvalidOperationException>(fun () -> backend.Frame(1.0 / 60.0) |> ignore) |> ignore
 
 [<Fact; Trait("spot", "spec-fenster-test-2")>]
 let ``Fenster — when mit headless gestartet wird then initialisiert die Technik ohne Fenster und beendet sauber`` () =
